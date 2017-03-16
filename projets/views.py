@@ -14,7 +14,7 @@ class ProjetCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.responsable = self.request.user
-        super().form_valid(form)
+        return super().form_valid(form)
 
 
 class ProjetDetailView(DetailView):
