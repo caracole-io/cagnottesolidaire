@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 
 from .models import Projet
 
@@ -15,3 +15,7 @@ class ProjetCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.responsable = self.request.user
         super().form_valid(form)
+
+
+class ProjetDetailView(DetailView):
+    model = Projet
