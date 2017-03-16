@@ -6,3 +6,5 @@
 #
 django-autoslug==1.9.3
 django==1.10.6
+olefile==0.44             # via pillow
+Pillow==4.0.0
