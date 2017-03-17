@@ -1,3 +1,4 @@
+from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView
 
@@ -19,3 +20,6 @@ class ProjetCreateView(LoginRequiredMixin, CreateView):
 
 class ProjetDetailView(DetailView):
     model = Projet
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(today=date.today(), **kwargs)

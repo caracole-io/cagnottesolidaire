@@ -14,6 +14,15 @@
   <dt>Fin Achat</dt>   <dd>{{ object.fin_achat }}</dd>
 </dl>
 
+<ul>
+  {% for proposition in object.proposition_set.all %}
+  <li>{{ proposition }}{% if today < object.fin_achat %} - <a href="todo">Faire une offre</a>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
 
+{% if today < object.fin_depot %}
+<a href="todo">Ajouter une proposition</a>
+{% endif %}
 
 {% endblock %}
