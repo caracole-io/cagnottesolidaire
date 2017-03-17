@@ -2,31 +2,37 @@
 
 {% block content %}
 
-{% if object.jumbo %}
+{% if projet.jumbo %}
 <div class="jumbotron">
-  <h1>{{ object }}</h1> <img alt="jumbo img for {{ object }}" src="{{ object.jumbo.url }}" style="width: 100%;" />
+  <h1>{{ projet }}</h1> <img alt="jumbo img for {{ projet }}" src="{{ projet.jumbo.url }}" style="width: 100%;" />
 </div>
 {% else %}
-  <h1>{{ object }}</h1>
+  <h1>{{ projet }}</h1>
 {% endif %}
 
 <dl class="dl-horizontal">
-  <dt>Responsable</dt> <dd>{{ object.responsable }}</dd>
-  <dt>Objectif</dt>    <dd>{{ object.objectif }}</dd>
-  <dt>Finances</dt>    <dd>{{ object.finances }} €</dd>
-  <dt>Fin Dépôt</dt>   <dd>{{ object.fin_depot }}</dd>
-  <dt>Fin Achat</dt>   <dd>{{ object.fin_achat }}</dd>
+  <dt>Responsable</dt> <dd>{{ projet.responsable }}</dd>
+  <dt>Objectif</dt>    <dd>{{ projet.objectif }}</dd>
+  <dt>Finances</dt>    <dd>{{ projet.finances }} €</dd>
+  <dt>Fin Dépôt</dt>   <dd>{{ projet.fin_depot }}</dd>
+  <dt>Fin Achat</dt>   <dd>{{ projet.fin_achat }}</dd>
 </dl>
 
+{% block projet_content %}
+
 <ul>
-  {% for proposition in object.proposition_set.all %}
-  <li>{{ proposition }}{% if today < object.fin_achat %} - <a href="todo">Faire une offre</a>{% endif %}
+  {% for proposition in projet.proposition_set.all %}
+  <li>
+    <a href="{% url 'projets:proposition' p_slug=projet.slug slug=proposition.slug %}">{{ proposition }}</a>
+    {# TODO badge nombre de gens #}
   </li>
   {% endfor %}
 </ul>
 
-{% if today < object.fin_depot %}
-<a href="todo">Ajouter une proposition</a>
+{% if today <= projet.fin_depot %}
+<a href="{% url 'projets:proposition_create' slug=projet.slug %}">Ajouter une proposition</a>
 {% endif %}
+
+{% endblock %}
 
 {% endblock %}

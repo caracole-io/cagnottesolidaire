@@ -1,0 +1,22 @@
+{% extends "projets/projet_detail.html" %}
+
+{% block projet_content %}
+
+<h2>{{ proposition }}</h2>
+
+<dl class="dl-horizontal">
+  <dt>Responsable</dt>   <dd>{{ proposition.responsable }}</dd>
+  <dt>Prix</dt>          <dd>{{ proposition.prix }} €</dd>
+  <dt>Bénéficiaires</dt> <dd>{% if proposition.beneficiaires == 0 %}TODO infini{% else %}{{ proposition.beneficiaires }}{% endif %}</dd>
+</dl>
+
+<p>{{ proposition.description }}</p>
+
+{# TODO badge #}
+
+{% if today <= projet.fin_achat %}
+<a href="{% url 'projets:offre_create' p_slug=projet.slug slug=proposition.slug %}">Faire une offre !</a>
+{% endif %}
+
+
+{% endblock %}
