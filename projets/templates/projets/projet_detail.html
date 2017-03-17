@@ -2,9 +2,13 @@
 
 {% block content %}
 
-<h1>Détail !</h1>
-
-<h2>{{ object }}</h2>
+{% if object.jumbo %}
+<div class="jumbotron">
+  <h1>{{ object }}</h1> <img alt="jumbo img for {{ object }}" src="{{ object.jumbo.url }}" style="width: 100%;" />
+</div>
+{% else %}
+  <h1>{{ object }}</h1>
+{% endif %}
 
 <dl class="dl-horizontal">
   <dt>Responsable</dt> <dd>{{ object.responsable }}</dd>

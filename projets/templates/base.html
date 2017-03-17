@@ -21,10 +21,13 @@
         </div>
         <div class="navbar-right">
           {% if request.user.is_authenticated %}
-          <div class="navbar-text">Bonjour {{ request.user }} :)</div>
-          <a href="{% url 'logout' %}" type="button" class="btn btn-default navbar-btn">Se déconnecter</a>
+            <div class="navbar-text">Bonjour {{ request.user }} :)</div>
+            {% if request.user.is_staff %}
+              <a href="/admin" type="button" class="btn btn-warning navbar-btn">Admin</a>
+            {% endif %}
+            <a href="{% url 'logout' %}" type="button" class="btn btn-default navbar-btn">Se déconnecter</a>
           {% else %}
-          <a href="{% url 'login' %}" type="button" class="btn btn-default navbar-btn">Se connecter</a>
+            <a href="{% url 'login' %}" type="button" class="btn btn-default navbar-btn">Se connecter</a>
           {% endif %}
         </div>
       </div>
