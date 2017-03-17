@@ -1,6 +1,7 @@
 from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView
+from django.contrib import messages
 
 from .models import Projet
 
@@ -15,6 +16,7 @@ class ProjetCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.responsable = self.request.user
+        messages.success(self.request, 'Votre projet a été correctement créé !')
         return super().form_valid(form)
 
 
