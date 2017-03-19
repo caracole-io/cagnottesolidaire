@@ -14,9 +14,15 @@
 
 {# TODO badge #}
 
+{% block proposition_content %}
+
 {% if today <= projet.fin_achat %}
 <a href="{% url 'projets:offre_create' p_slug=projet.slug slug=proposition.slug %}">Faire une offre !</a>
 {% endif %}
+
+{% endblock %}
+
+<a href="{% url 'projets:projet' slug=projet.slug %}">Retour au projet «{{ projet }}»</a>
 
 
 {% endblock %}

@@ -59,8 +59,12 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         form.instance.proposition = self.get_proposition()
         form.instance.beneficiaire = self.request.user
         messages.success(self.request, 'Votre offre a été correctement ajoutée !')
+        messages.info(self.request, 'Dès qu’elle sera validée par %s, vous recevrez un mail' %
+                      form.instance.proposition.responsable)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         projet = get_object_or_404(Projet, slug=self.kwargs.get('p_slug', None))
-        return super().get_context_data(projet=projet, proposition=self.get_proposition(), **kwargs)
+        proposition = self.get_proposition()
+        count = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()
+        return super().get_context_data(projet=projet, proposition=proposition, count=count, **kwargs)
