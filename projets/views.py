@@ -54,7 +54,6 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
     def get_proposition(self):
         return get_object_or_404(Proposition, slug=self.kwargs.get('slug', None))
 
-
     def form_valid(self, form):
         form.instance.proposition = self.get_proposition()
         form.instance.beneficiaire = self.request.user

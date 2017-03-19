@@ -37,8 +37,10 @@ class Projet(AbstractModel):
     pict = models.ImageField('Petite image', upload_to=upload_to_pict, blank=True)
     objectif = models.TextField('Description de l’objectif de la cagnotte')
     finances = models.DecimalField('But à atteindre', max_digits=8, decimal_places=2)  # TODO > 0
-    fin_depot = models.DateField('Date de fin du dépôt des propositions', help_text='format: 31/12/2017')  # TODO > today
-    fin_achat = models.DateField('Date de fin des achats', help_text='format: 31/12/2017')  # TODO > depot
+    fin_depot = models.DateField('Date de fin du dépôt des propositions',
+                                 help_text='format: 31/12/2017')  # TODO > today
+    fin_achat = models.DateField('Date de fin des achats',
+                                 help_text='format: 31/12/2017')  # TODO > depot
 
     def get_absolute_url(self):
         return reverse('projets:projet', kwargs={'slug': self.slug})
