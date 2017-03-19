@@ -68,3 +68,8 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         proposition = self.get_proposition()
         count = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()
         return super().get_context_data(projet=projet, proposition=proposition, count=count, **kwargs)
+
+
+class OffreListView(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        return Offre.objects.filter(beneficiaire=self.request.user)
