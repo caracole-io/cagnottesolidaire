@@ -1,10 +1,11 @@
 from datetime import date
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, DetailView
-from django.contrib import messages
-from django.shortcuts import get_object_or_404
 
-from .models import Projet, Proposition, Offre
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.views.generic import CreateView, DetailView, ListView
+
+from .models import Offre, Projet, Proposition
 
 
 class ProjetListView(ListView):

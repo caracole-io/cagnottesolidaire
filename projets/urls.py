@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
-from .views import ProjetCreateView, ProjetDetailView, ProjetListView, PropositionCreateView, PropositionDetailView, OffreCreateView
+from .views import (OffreCreateView, ProjetCreateView, ProjetDetailView,
+                    ProjetListView, PropositionCreateView, PropositionDetailView)
 
 app_name = 'projets'
 urlpatterns = [
