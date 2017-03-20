@@ -65,3 +65,17 @@ class TestProjet(TestCase):
         self.assertEqual(r.status_code, 302)
         self.assertEqual(r.url, reverse('projets:proposition', kwargs=propd))
         self.assertEqual(self.client.get(reverse('projets:proposition', kwargs=propd)).status_code, 200)
+
+    def test_lists(self):
+        self.assertEqual(self.client.get(reverse('projets:offre_list')).status_code, 302)
+        self.assertEqual(self.client.get(reverse('projets:proposition_list')).status_code, 302)
+        self.client.login(username='a', password='a')
+        self.assertEqual(self.client.get(reverse('projets:offre_list')).status_code, 200)
+        self.assertEqual(self.client.get(reverse('projets:proposition_list')).status_code, 200)
+        guy = User.objects.first()
+        proj = Projet.objects.create(nom='quatre', responsable=guy, objectif='nothing', finances=43,
+                                     fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+        prop = Proposition.objects.create(nom='cinq', description='nope', prix=20, projet=proj, responsable=guy)
+        Offre.objects.create(proposition=prop, beneficiaire=guy)
+        self.assertEqual(self.client.get(reverse('projets:offre_list')).status_code, 200)
+        self.assertEqual(self.client.get(reverse('projets:proposition_list')).status_code, 200)
