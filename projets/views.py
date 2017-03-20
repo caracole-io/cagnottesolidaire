@@ -73,3 +73,8 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
 class OffreListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Offre.objects.filter(beneficiaire=self.request.user)
+
+
+class PropositionListView(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        return Proposition.objects.filter(responsable=self.request.user)

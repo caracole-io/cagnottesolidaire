@@ -4,12 +4,21 @@
 
 <h1>Mes offres</h1>
 
-<ul>
-{% for object in object_list %}
-<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-{% empty %}
-<li>Pas d’offre</li>
-{% endfor %}
-</ul>
+<table class="table table-stripped">
+  <tr>
+    <th>Projet</th><th>Proposition</th><th class="text-right">Prix</th>
+    <th class="text-right">Validée</th><th class="text-right">Paiement reçu</th>
+  </tr>
+  {% for offre in offre_list %}
+  <tr>
+    <td>{{ offre.proposition.projet.link }}</td><td>{{ offre.proposition.link }}</td>
+    <td class="text-right">{{ offre.proposition.prix }} €</td>
+    <td class="text-right">{{ offre.valide|yesno:"oui,non,pas encore" }}</td>
+    <td class="text-right">{{ offre.paye|yesno }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">Vous n’avez pas encore fait d’offres</td></tr>
+  {% endfor %}
+</table>
 
 {% endblock %}

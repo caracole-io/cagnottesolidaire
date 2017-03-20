@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.safestring import mark_safe
 
 from autoslug.fields import AutoSlugField
 
@@ -30,6 +31,13 @@ class AbstractModel(models.Model):
     def __str__(self):
         return self.nom
 
+    @property
+    def absolute_url(self):
+        return self.get_absolute_url()
+
+    def link(self):
+        return mark_safe(f'<a href="{self.absolute_url}">{self}</a>')
+
 
 class Projet(AbstractModel):
     responsable = models.ForeignKey(User)
@@ -55,11 +63,14 @@ class Proposition(AbstractModel):
                                         help_text='0 pour un nombre illimité')  # TODO >= 0
     image = models.ImageField('Image', upload_to=upload_to_prop, blank=True)
 
+    class Meta:
+        ordering = ('projet', 'prix')
+
     def get_absolute_url(self):
         return reverse('projets:proposition', kwargs={'slug': self.slug, 'p_slug': self.projet.slug})
 
     def offres(self):
-        return self.offre_set.filter(valide=True).count(), self.offre_set.count()
+        return [self.offre_set.filter(**f).count() for f in [{}, {'valide': True}, {'paye': True}]]
 
 
 class Offre(models.Model):
@@ -68,8 +79,11 @@ class Offre(models.Model):
     valide = models.NullBooleanField('validé', default=None)
     paye = models.BooleanField('payé', default=False)
 
+    class Meta:
+        ordering = ('paye', 'valide', 'proposition')
+
     def __str__(self):
         return 'offre de %s sur %s (projet %s)' % (self.beneficiaire, self.proposition, self.proposition.projet)
 
     def get_absolute_url(self):
-        return self.proposition.get_absolute_url()
+        return self.proposition.absolute_url

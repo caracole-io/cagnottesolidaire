@@ -26,6 +26,7 @@
               <a href="/admin" type="button" class="btn btn-info navbar-btn">Admin</a>
             {% endif %}
             <a href="{% url 'projets:offre_list' %}" type="button" class="btn btn-default navbar-btn">Mes offres</a>
+            <a href="{% url 'projets:proposition_list' %}" type="button" class="btn btn-default navbar-btn">Mes Propositions</a>
             <a href="{% url 'logout' %}" type="button" class="btn btn-warning navbar-btn">Se déconnecter</a>
           {% else %}
             <a href="{% url 'login' %}" type="button" class="btn btn-default navbar-btn">Se connecter</a>

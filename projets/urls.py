@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from .views import (OffreCreateView, OffreListView, ProjetCreateView, ProjetDetailView,
-                    ProjetListView, PropositionCreateView, PropositionDetailView)
+                    ProjetListView, PropositionCreateView, PropositionDetailView, PropositionListView)
 
 app_name = 'projets'
 urlpatterns = [
@@ -19,4 +19,6 @@ urlpatterns = [
         name='offre_create'),
     url(r'^offres$', OffreListView.as_view(),
         name='offre_list'),
+    url(r'^propositions$', PropositionListView.as_view(),
+        name='proposition_list'),
 ]
