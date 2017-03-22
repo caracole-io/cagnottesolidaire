@@ -29,6 +29,8 @@ if not CONF_DIR.is_dir():
 SECRET_KEY = (CONF_DIR / "secret_key.txt").open().read().strip()
 
 DEBUG = not (CONF_DIR / "prod").is_file()
+if DEBUG:
+    ALLOWED_HOSTS.append("127.0.0.1")
 
 EMAIL_SUBJECT_PREFIX = ("[%s Dev] " if DEBUG else "[%s] ") % PROJECT_VERBOSE
 
@@ -46,6 +48,7 @@ MANAGERS = ADMINS
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'projets',
     'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,7 +56,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
-    'projets',
 ]
 
 MIDDLEWARE = [
