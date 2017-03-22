@@ -21,6 +21,7 @@ ALLOWED_HOSTS = ["cagnottesolidaire.totheweb.fr"]
 ALLOWED_HOSTS.append("www.%s" % ALLOWED_HOSTS[0])
 
 BASE_DIR = dirname(dirname(abspath(__file__)))
+
 CONF_DIR = Path("/etc/django/") / PROJECT
 
 if not CONF_DIR.is_dir():
@@ -35,13 +36,13 @@ if DEBUG:
 EMAIL_SUBJECT_PREFIX = ("[%s Dev] " if DEBUG else "[%s] ") % PROJECT_VERBOSE
 
 EMAIL_USE_SSL = True
-EMAIL_HOST = "mail.gandi.net"
+EMAIL_HOST = "mail.gandi.net" if SELF_MAIL else "SSL0.OVH.NET"
 EMAIL_PORT = 465
 EMAIL_HOST_USER = "%s@%s" % (MAIL_USER, ALLOWED_HOSTS[0] if SELF_MAIL else "totheweb.fr")
 SERVER_EMAIL = "%s+%s@%s" % (MAIL_USER, PROJECT, ALLOWED_HOSTS[0] if SELF_MAIL else "totheweb.fr")
 DEFAULT_FROM_EMAIL = "%s <%s@%s>" % (PROJECT_VERBOSE, MAIL_USER, ALLOWED_HOSTS[0] if SELF_MAIL else "totheweb.fr")
 EMAIL_HOST_PASSWORD = (CONF_DIR / "email_password").open().read().strip()
-EMAIL_BACKEND = 'django.core.mail.backends.%s' % ('filebased.EmailBackend' if DEBUG else 'smtp.EmailBackend')
+EMAIL_BACKEND = 'django.core.mail.backends.%s' % ('locmem.EmailBackend' if DEBUG else 'smtp.EmailBackend')
 
 ADMINS = (("Guilhem Saurel", "guilhem+admin-%s@saurel.me" % PROJECT),)
 MANAGERS = ADMINS
@@ -77,6 +78,7 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': DEBUG,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.i18n',
