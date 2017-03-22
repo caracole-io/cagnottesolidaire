@@ -48,8 +48,8 @@ ADMINS = (("Guilhem Saurel", "guilhem+admin-%s@saurel.me" % PROJECT),)
 MANAGERS = ADMINS
 
 INSTALLED_APPS = [
+    PROJECT,
     'django.contrib.admin',
-    'projets',
     'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'projets',
 ]
 
 MIDDLEWARE = [
