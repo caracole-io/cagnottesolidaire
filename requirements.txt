@@ -6,6 +6,7 @@
 #
 django-autoslug==1.9.3
 django-bootstrap3==8.2.1
+django-registration-redux==1.4
 django==1.10.6
 olefile==0.44             # via pillow
 pillow==4.0.0
