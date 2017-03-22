@@ -1,15 +1,37 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
 <h1>Projets en cours</h1>
 
-<ul>
-{% for object in object_list %}
-<li><a href="{{ object.absolute_url }}">{{ object }}</a></li>
-{% endfor %}
-</ul>
+<div class="container">
+  <div class="row">
 
-<a href="{% url 'projets:projet_create' %}">Nouveau Projet</a>
+    {% for projet in projet_list %}
+    <div class="col-md-4">
+      <div class="projp">
+        <img alt="{{ projet }} picture" src="{% if projet.pict %}{{ projet.pict.url }}{% else %}{% static 'img/blank.png' %}{% endif %}" />
+        <h2>{{ projet }}</h2>
+        <p class="obj">{{ projet.objectif|linebreaksbr|truncatewords:20 }}</p>
+        <p class="text-center"><a type="button" class="btn btn-success" href="{{ projet.absolute_url }}">Go »</a></p>
+      </div>
+    </div>
+    {% if forloop.counter|divisibleby:"3" %}</div><div class="row">{% endif %}
+    {% endfor %}
+
+    {% if projet_list|length|divisibleby:"3" %}</div><div class="row">{% endif %}
+
+    <div class="col-md-4">
+      <div class="projp projp-new">
+        <img alt="nouveau projet" src="{% static 'img/new.png' %}" />
+        <h2>Nouveau Projet</h2>
+        <p class="obj">Vous aussi, créez votre cagnotte solidaire !</p>
+        <p class="text-center"><a type="button" class="btn btn-success" href="{% url 'projets:projet_create' %}">Go »</a></p>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 {% endblock %}

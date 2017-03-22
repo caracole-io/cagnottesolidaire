@@ -14,7 +14,7 @@ class ProjetListView(ListView):
 
 class ProjetCreateView(LoginRequiredMixin, CreateView):
     model = Projet
-    fields = ['nom', 'objectif', 'finances', 'fin_depot', 'fin_achat', 'pict', 'jumbo']
+    fields = ['nom', 'objectif', 'finances', 'fin_depot', 'fin_achat', 'pict']
 
     def form_valid(self, form):
         form.instance.responsable = self.request.user

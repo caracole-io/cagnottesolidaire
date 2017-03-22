@@ -6,10 +6,6 @@ from django.utils.safestring import mark_safe
 from autoslug.fields import AutoSlugField
 
 
-def upload_to_jumbo(instance, filename):
-    return 'projets/%s_jumbo.%s' % (instance.slug, filename.split('.')[-1])
-
-
 def upload_to_pict(instance, filename):
     return 'projets/%s_pict.%s' % (instance.slug, filename.split('.')[-1])
 
@@ -41,8 +37,7 @@ class AbstractModel(models.Model):
 
 class Projet(AbstractModel):
     responsable = models.ForeignKey(User)
-    jumbo = models.ImageField('Grande image', upload_to=upload_to_jumbo, blank=True)
-    pict = models.ImageField('Petite image', upload_to=upload_to_pict, blank=True)
+    pict = models.ImageField('Image', upload_to=upload_to_pict, blank=True)
     objectif = models.TextField('Description de l’objectif de la cagnotte')
     finances = models.DecimalField('But à atteindre', max_digits=8, decimal_places=2)  # TODO > 0
     fin_depot = models.DateField('Date de fin du dépôt des propositions',

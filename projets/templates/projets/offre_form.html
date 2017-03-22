@@ -7,7 +7,9 @@
 
 {# TODO style warning #}
 {% if count > 0 %}
-Attention, vous avez déjà fait {{ count }} offre{{ count|pluralize }} sur cette proposition !
+<div class="alert alert-warning" role="alert">
+  Attention, vous avez déjà fait <strong>{{ count }} offre{{ count|pluralize }}</strong> sur cette proposition !
+</div>
 {% endif %}
 
 

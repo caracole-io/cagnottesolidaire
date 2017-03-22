@@ -8,6 +8,10 @@
 vf new cagnottesolidaire
 vf connect
 pip install -r requirements.txt
+sudo mkdir -p /etc/django/cangottesolidaire
+sudo chown $USER /etc/django/cangottesolidaire
+echo pipo > /etc/django/cagnottesolidaire/secret_key.txt
+echo pipo > /etc/django/cagnottesolidaire/email_password
 ./manage.py migrate
 ./manage.py createsuperuser --email guilhem@saurel.me --username nim
 ./manage.py runserver
