@@ -1,11 +1,11 @@
 # Cagnotte Solidaire
-[![Build Status](https://travis-ci.org/nim65s/cagnotte_solidaire.svg?branch=master)](https://travis-ci.org/nim65s/cagnotte_solidaire)
-[![Coverage Status](https://coveralls.io/repos/github/nim65s/cagnotte_solidaire/badge.svg?branch=master)](https://coveralls.io/github/nim65s/cagnotte_solidaire?branch=master)
+[![Build Status](https://travis-ci.org/nim65s/cagnottesolidaire.svg?branch=master)](https://travis-ci.org/nim65s/cagnottesolidaire)
+[![Coverage Status](https://coveralls.io/repos/github/nim65s/cagnottesolidaire/badge.svg?branch=master)](https://coveralls.io/github/nim65s/cagnottesolidaire?branch=master)
 
 
 ## Dev
 ```
-vf new cagnotte_solidaire
+vf new cagnottesolidaire
 vf connect
 pip install -r requirements.txt
 ./manage.py migrate
