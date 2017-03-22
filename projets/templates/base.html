@@ -27,9 +27,9 @@
             {% endif %}
             <a href="{% url 'projets:offre_list' %}" type="button" class="btn btn-default navbar-btn">Mes offres</a>
             <a href="{% url 'projets:proposition_list' %}" type="button" class="btn btn-default navbar-btn">Mes Propositions</a>
-            <a href="{% url 'logout' %}" type="button" class="btn btn-warning navbar-btn">Se déconnecter</a>
+            <a href="{% url 'auth_logout' %}" type="button" class="btn btn-warning navbar-btn">Se déconnecter</a>
           {% else %}
-            <a href="{% url 'login' %}" type="button" class="btn btn-default navbar-btn">Se connecter</a>
+            <a href="{% url 'auth_login' %}" type="button" class="btn btn-default navbar-btn">Se connecter</a>
           {% endif %}
         </div>
       </div>
