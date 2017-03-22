@@ -1,36 +1,36 @@
 server {
     listen 80;
-    server_name cagnotte_solidaire.totheweb.fr www.cagnotte_solidaire.totheweb.fr;
-    return 301 https://cagnotte_solidaire.totheweb.fr$request_uri;
+    server_name cagnottesolidaire.totheweb.fr www.cagnottesolidaire.totheweb.fr;
+    return 301 https://cagnottesolidaire.totheweb.fr$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name www.cagnotte_solidaire.totheweb.fr;
+    server_name www.cagnottesolidaire.totheweb.fr;
 
-    ssl_certificate     /etc/letsencrypt/live/cagnotte_solidaire.totheweb.fr/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/cagnotte_solidaire.totheweb.fr/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/cagnottesolidaire.totheweb.fr/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/cagnottesolidaire.totheweb.fr/privkey.pem;
 
-    return 301 https://cagnotte_solidaire.totheweb.fr$request_uri;
+    return 301 https://cagnottesolidaire.totheweb.fr$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name cagnotte_solidaire.totheweb.fr;
+    server_name cagnottesolidaire.totheweb.fr;
 
-    ssl_certificate     /etc/letsencrypt/live/cagnotte_solidaire.totheweb.fr/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/cagnotte_solidaire.totheweb.fr/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/cagnottesolidaire.totheweb.fr/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/cagnottesolidaire.totheweb.fr/privkey.pem;
 
-    access_log  /var/log/nginx/cagnotte_solidaire.log;
-    error_log  /var/log/nginx/cagnotte_solidaire.err;
+    access_log  /var/log/nginx/cagnottesolidaire.log;
+    error_log  /var/log/nginx/cagnottesolidaire.err;
 
     location /static/ {
-        alias /var/www/cagnotte_solidaire/static_dest/;
+        alias /var/www/cagnottesolidaire/static_dest/;
         expires 30d;
     }
 
     location /media/ {
-        alias /var/www/cagnotte_solidaire/media/;
+        alias /var/www/cagnottesolidaire/media/;
         expires 30d;
     }
 
