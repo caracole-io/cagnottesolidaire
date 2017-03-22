@@ -2,6 +2,8 @@
 {% load bootstrap3 %}
 
 {% block content %}
+<h1>Connexion</h1>
+
 <form action="" method="post" class="form-horizontal">
   {% csrf_token %}
   {% bootstrap_form form layout="horizontal" %}
@@ -10,4 +12,7 @@
   <a href="{% url 'password_reset' %}" class="btn btn-warning">Mot de passe oublié ?</a>
   {% endbuttons %}
 </form>
+
+<h2>Ou</h2>
+<p class="text-center"><a href="{% url 'registration_register' %}" class="btn btn-primary">Créer un compte</a></p>
 {% endblock %}

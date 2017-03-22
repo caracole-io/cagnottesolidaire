@@ -30,6 +30,7 @@
             <a href="{% url 'auth_logout' %}" type="button" class="btn btn-warning navbar-btn">Se déconnecter</a>
           {% else %}
             <a href="{% url 'auth_login' %}" type="button" class="btn btn-default navbar-btn">Se connecter</a>
+            <a href="{% url 'registration_register' %}" type="button" class="btn btn-primary navbarr-btn">Créer un compte</a>
           {% endif %}
         </div>
       </div>
