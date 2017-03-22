@@ -30,7 +30,7 @@ SECRET_KEY = (CONF_DIR / "secret_key.txt").open().read().strip()
 
 DEBUG = not (CONF_DIR / "prod").is_file()
 
-EMAIL_SUBJECT_PREFIX = ("[%s Dev] " if DEBUG or INTEGRATION else "[%s] ") % PROJECT_VERBOSE
+EMAIL_SUBJECT_PREFIX = ("[%s Dev] " if DEBUG else "[%s] ") % PROJECT_VERBOSE
 
 EMAIL_USE_SSL = True
 EMAIL_HOST = "mail.gandi.net"
