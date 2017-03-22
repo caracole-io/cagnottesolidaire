@@ -130,12 +130,13 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = join(BASE_DIR, 'static_dest') if DEBUG else '/var/www/%s/static_dest' % PROJECT
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-        "LOCATION": "127.0.0.1:11211",
+if not DEBUG:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+            "LOCATION": "127.0.0.1:11211",
+        }
     }
-}
 
 LOGGING = {
     "version": 1,
