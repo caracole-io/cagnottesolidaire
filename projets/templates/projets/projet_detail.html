@@ -6,56 +6,61 @@
 <div class="container">
   <div class="row">
     <div class="col-md-9">
-
-      {% if projet.pict %}
-      <img alt="img for {{ projet }}" src="{{ projet.pict.url }}" class="proj-det-im" />
+      {% if object.image %}
+      <a href="{{ object.absolute_url }}">
+      <img alt="image pour {{ object }}" src="{{ object.image.url }}" class="projp-det-im" />
+      </a>
+      <hr>
       {% endif %}
 
+      {% block projet_content %}
+      <div class="row">
+
+        {% for proposition in projet.proposition_set.all %}
+        <div class="col-md-4">
+          <div class="projp">
+            <a href="{{ proposition.absolute_url }}">
+            <img alt="image pour {{ proposition }}" src="{% if proposition.image %}{{ proposition.image.url }}{% else %}{% static 'img/blank.png' %}{% endif %}" />
+            </a>
+            <h2>{{ proposition.link }}</h2>
+            <p class="obj">{{ proposition.description|linebreaksbr|truncatewords:20 }}</p>
+            <p class="text-center"><a type="button" class="btn btn-success" href="{{ proposition.absolute_url }}">Go »</a></p>
+            {# TODO badge nombre de gens #}
+          </div>
+        </div>
+        {% if forloop.counter|divisibleby:"3" %}</div><div class="row">{% endif %}
+        {% endfor %}
+
+        {% if today <= projet.fin_depot %}
+        {% if projet.proposition_set.count|divisibleby:"3" %}</div><div class="row">{% endif %}
+        <div class="col-md-4">
+          <div class="projp projp-new">
+            <a href="{% url 'projets:proposition_create' slug=projet.slug %}">
+            <img alt="nouveau projet" src="{% static 'img/new.png' %}" />
+            <h2>Nouvelle proposition</h2>
+            </a>
+            <p class="obj">Vous aussi, participez à cette cagnotte solidaire en proposant un bien ou un service !</p>
+            <p class="text-center"><a type="button" class="btn btn-success" href="{% url 'projets:proposition_create' slug=projet.slug %}">Ajouter une proposition »</a></p>
+          </div>
+        </div>
+
+        {% endif %}
+
+      </div>
+      {% endblock %}
     </div>
 
     <div class="col-md-3">
-      <h1>{{ projet }}</h1>
+      <h1>{{ projet.link }}</h1>
       <dl class="dl-horizontal">
         <dt>Responsable</dt> <dd>{{ projet.responsable }}</dd>
         <dt>Finances</dt>    <dd>{{ projet.finances }} €</dd>
         <dt>Fin Dépôt</dt>   <dd>{{ projet.fin_depot }}</dd>
         <dt>Fin Achat</dt>   <dd>{{ projet.fin_achat }}</dd>
       </dl>
+      {% block projet_column %}
+      {% endblock %}
     </div>
   </div>
-
-
-  {% block projet_content %}
-  <div class="row">
-
-    {% for proposition in projet.proposition_set.all %}
-    <div class="col-md-4">
-      <div class="projp">
-        <img alt="{{ proposition }} picture" src="{% if proposition.image %}{{ proposition.image.url }}{% else %}{% static 'img/blank.png' %}{% endif %}" />
-        <h2>{{ proposition }}</h2>
-        <p class="obj">{{ proposition.description|linebreaksbr|truncatewords:20 }}</p>
-        <p class="text-center"><a type="button" class="btn btn-success" href="{{ proposition.absolute_url }}">Go »</a></p>
-        {# TODO badge nombre de gens #}
-      </div>
-    </div>
-    {% if forloop.counter|divisibleby:"3" %}</div><div class="row">{% endif %}
-    {% endfor %}
-
-    {% if today <= projet.fin_depot %}
-    {% if projet.proposition_set.count|divisibleby:"3" %}</div><div class="row">{% endif %}
-    <div class="col-md-4">
-      <div class="projp projp-new">
-        <img alt="nouveau projet" src="{% static 'img/new.png' %}" />
-        <h2>Nouvelle proposition</h2>
-        <p class="obj">Vous aussi, participez à cette cagnotte solidaire en proposant un bien ou un service !</p>
-        <p class="text-center"><a type="button" class="btn btn-success" href="{% url 'projets:proposition_create' slug=projet.slug %}">Ajouter une proposition »</a></p>
-      </div>
-    </div>
-
-    {% endif %}
-
-  </div>
-  {% endblock %}
-
 </div>
 {% endblock %}

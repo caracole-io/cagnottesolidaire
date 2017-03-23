@@ -1,36 +1,34 @@
 {% extends "projets/projet_detail.html" %}
 
+{% block projet_column %}
+
+{% if projet.image %}
+<a href="{{ projet.absolute_url }}">
+  <img alt="image pour {{ projet }}" src="{{ projet.image.url }}" class="projp-det-im" />
+</a>
+<hr>
+{% endif %}
+
+<h2>{{ proposition.link }}</h2>
+{# TODO badge #}
+<dl class="dl-horizontal">
+  <dt>Responsable</dt>   <dd>{{ proposition.responsable }}</dd>
+  <dt>Prix</dt>          <dd>{{ proposition.prix }} €</dd>
+  <dt>Bénéficiaires</dt> <dd>{% if proposition.beneficiaires == 0 %}∞{% else %}{{ proposition.beneficiaires }}{% endif %}</dd>
+</dl>
+
+{% endblock %}
+
 {% block projet_content %}
+<p>{{ proposition.description }}</p>
 
-<div class="row">
-  <div class="col-md-9">
-    <p>{{ proposition.description }}</p>
+{% block proposition_content %}
 
-    {# TODO badge #}
-
-    {% block proposition_content %}
-
-    {% if today <= projet.fin_achat %}
-    <p><a href="{% url 'projets:offre_create' p_slug=projet.slug slug=proposition.slug %}"
+{% if today <= projet.fin_achat %}
+<p><a href="{% url 'projets:offre_create' p_slug=projet.slug slug=proposition.slug %}"
       type="button" class="btn btn-success btn-large">Faire une offre !</a></p>
-    {% endif %}
+{% endif %}
 
-    {% endblock %}
-
-    <p><a href="{% url 'projets:projet' slug=projet.slug %}">Retour au projet «{{ projet }}»</a></p>
-
-  </div>
-  <div class="col-md-3">
-    <h2>{{ proposition }}</h2>
-    {% if projet.pict %}
-    <img alt="img for {{ proposition }}" src="{{ proposition.image.url }}" class="prop-det-im" />
-    {% endif %}
-    <dl class="dl-horizontal">
-      <dt>Responsable</dt>   <dd>{{ proposition.responsable }}</dd>
-      <dt>Prix</dt>          <dd>{{ proposition.prix }} €</dd>
-      <dt>Bénéficiaires</dt> <dd>{% if proposition.beneficiaires == 0 %}TODO infini{% else %}{{ proposition.beneficiaires }}{% endif %}</dd>
-    </dl>
-  </div>
-
-
-  {% endblock %}
+<p><a href="{% url 'projets:projet' slug=projet.slug %}">Retour au projet «{{ projet }}»</a></p>
+{% endblock %}
+{% endblock %}

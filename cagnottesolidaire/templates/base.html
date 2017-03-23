@@ -15,24 +15,39 @@
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+      <div class="container-fluid">
+
         <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
           <a class="navbar-brand" href="/">Cagnotte Solidaire</a>
         </div>
-        <div class="navbar-right">
-          {% if request.user.is_authenticated %}
-            <div class="navbar-text">Bonjour {{ request.user }} :)</div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Cagnottes</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            {% if request.user.is_authenticated %}
+            <li class="navbar-text">Bonjour {{ request.user }} :)</li>
             {% if request.user.is_staff %}
-              <a href="/admin" type="button" class="btn btn-info navbar-btn">Admin</a>
+            <li><a href="/admin">Admin</a></li>
             {% endif %}
-            <a href="{% url 'projets:offre_list' %}" type="button" class="btn btn-default navbar-btn">Mes offres</a>
-            <a href="{% url 'projets:proposition_list' %}" type="button" class="btn btn-default navbar-btn">Mes Propositions</a>
-            <a href="{% url 'auth_logout' %}" type="button" class="btn btn-warning navbar-btn">Se déconnecter</a>
-          {% else %}
-            <a href="{% url 'auth_login' %}" type="button" class="btn btn-default navbar-btn">Se connecter</a>
-            <a href="{% url 'registration_register' %}" type="button" class="btn btn-primary navbarr-btn">Créer un compte</a>
-          {% endif %}
+            <li><a href="{% url 'projets:offre_list' %}">Mes offres</a></li>
+            <li><a href="{% url 'projets:proposition_list' %}">Mes Propositions</a></li>
+            <li><a href="{% url 'auth_logout' %}">Se déconnecter</a></li>
+            {% else %}
+            <li><a href="{% url 'auth_login' %}">Se connecter</a></li>
+            <li><a href="{% url 'registration_register' %}">Créer un compte</a></li>
+            {% endif %}
+          </ul>
         </div>
+
       </div>
     </nav>
     <div class="container">
