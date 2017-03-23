@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1>Projets en cours</h1>
+<h1>Cagnottes en cours</h1>
 
 <div class="container">
   <div class="row">
@@ -27,8 +27,8 @@
     <div class="col-md-4">
       <div class="projp projp-new">
         <a href="{% url 'projets:projet_create' %}">
-          <img alt="nouveau projet" src="{% static 'img/new.png' %}" />
-          <h2>Nouveau Projet</h2>
+          <img alt="Nouvelle Cagnotte" src="{% static 'img/new.png' %}" />
+          <h2>Nouvelle Cagnotte</h2>
         </a>
         <p class="obj">Vous aussi, créez votre cagnotte solidaire !</p>
         <p class="text-center"><a type="button" class="btn btn-success" href="{% url 'projets:projet_create' %}">Go »</a></p>

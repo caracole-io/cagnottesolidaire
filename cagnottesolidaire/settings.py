@@ -32,6 +32,7 @@ SECRET_KEY = (CONF_DIR / "secret_key.txt").open().read().strip()
 DEBUG = not (CONF_DIR / "prod").is_file()
 if DEBUG:
     ALLOWED_HOSTS.append("127.0.0.1")
+    ALLOWED_HOSTS.append("localhost")
 
 EMAIL_SUBJECT_PREFIX = ("[%s Dev] " if DEBUG else "[%s] ") % PROJECT_VERBOSE
 

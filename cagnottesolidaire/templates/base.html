@@ -56,6 +56,14 @@
       <h1>Hello, world!</h1>
       {% endblock %}
     </div>
+    <hr>
+    <p class="text-center">Besoin d’aide ? Contactez
+    {% if request.user.is_authenticated %}
+    <a href="mailto:cagnottesolidaire@framalistes.org">cagnottesolidaire@framalistes.org</a>
+    {% else %}
+    «cagnottesolidaire @ framalistes . org»
+    {% endif %}
+    </p>
 
     <script src="{% bootstrap_jquery_url %}"></script>
     <script src="{% bootstrap_javascript_url %}" crossorigin="anonymous" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" ></script>

@@ -50,7 +50,7 @@ class PropositionDetailView(DetailView):
 
 class OffreCreateView(LoginRequiredMixin, CreateView):
     model = Offre
-    fields = []
+    fields = ['remarques']
 
     def get_proposition(self):
         return get_object_or_404(Proposition, slug=self.kwargs.get('slug', None))
@@ -66,8 +66,8 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         projet = get_object_or_404(Projet, slug=self.kwargs.get('p_slug', None))
         proposition = self.get_proposition()
-        count = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()
-        return super().get_context_data(projet=projet, proposition=proposition, count=count, **kwargs)
+        ct = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()
+        return super().get_context_data(projet=projet, proposition=proposition, count=ct, object=proposition, **kwargs)
 
 
 class OffreListView(LoginRequiredMixin, ListView):

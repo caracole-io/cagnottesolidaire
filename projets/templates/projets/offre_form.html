@@ -15,6 +15,7 @@
 
 <form action="" method="post" class="form-horizontal">
   {% csrf_token %}
+  {% bootstrap_form form layout="horizontal" %}
   {% buttons layout="horizontal" %}
   <a href="{% url 'projets:proposition' p_slug=projet.slug slug=proposition.slug %}"
     type="button" class="btn btn-warning">Non</a>

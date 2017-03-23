@@ -73,6 +73,7 @@ class Offre(models.Model):
     beneficiaire = models.ForeignKey(User)
     valide = models.NullBooleanField('validé', default=None)
     paye = models.BooleanField('payé', default=False)
+    remarques = models.TextField(blank=True)
 
     class Meta:
         ordering = ('paye', 'valide', 'proposition')

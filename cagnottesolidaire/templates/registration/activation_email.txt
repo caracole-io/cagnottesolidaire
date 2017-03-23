@@ -1,0 +1,14 @@
+Bonjour !
+
+
+Vous (ou quelqu’un prétendant être vous) a demandé de créer un compte sur {{ site.name }}.
+
+Si ce n’était pas vous, vous pouvez ignorer ce mail.
+
+Pour active ce compte, cliquez simplement sur ce lien dans les {{ expiration_days }} jours:
+
+https://{{site.domain}}{% url 'registration_activate' activation_key %}
+
+
+Cordialement,
+l’équipe de {{ site.name }}.
