@@ -1,0 +1,15 @@
+Bonjour {{ offre.proposition.responsable }},
+
+{{ offre.beneficiaire }} vient de faire une offre sur votre proposition
+{{ offre.proposition }} du projet {{ offre.proposition.projet }}:
+
+{% url 'projets:offre_list' %}{# TODO: offre_detail mais il faut la PK…#}
+
+Bonne journée !
+
+--
+
+Ce message est automatique, il est inutile d’y répondre.
+
+En cas de problème, vous pouvez contacter
+cagnottesolidaire@framalistes.org

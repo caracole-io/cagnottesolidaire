@@ -32,5 +32,16 @@
 <p class="text-right">
 <a type="button" class="btn btn-info" href="{% url 'projets:projet' slug=projet.slug %}">← Retour au projet «{{ projet }}»</a>
 </p>
+
+{% if request.user.is_authenticated %}
+{% if request.user.is_staff or proposition.responsable == request.user %}
+<h2>Offres sur cette proposition</h2>
+<ul>
+  {% for offre in proposition.offre_set.all %}
+  <li><a href="{% url 'projets:offre' pk=offre.pk %}">{{ offre.beneficiaire }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endif %}
 {% endblock %}
 {% endblock %}

@@ -1,7 +1,9 @@
 from datetime import date
+import sys
 
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.mail import mail_admins
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, DetailView, ListView
 
@@ -61,6 +63,12 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Votre offre a été correctement ajoutée !')
         messages.info(self.request, 'Dès qu’elle sera validée par %s, vous recevrez un mail' %
                       form.instance.proposition.responsable)
+        try:
+            mail = get_template('projets/mails/offre_create.txt').render({'offre': form.instance})
+            form.instance.proposition.responsable.email_user('Nouvelle offre sur votre proposition !', mail)
+        except:
+            mail_admins('mail d’offre pas envoyé', f'{form.instance.proposition} / {form.instance.beneficiaire}')
+
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -78,3 +86,15 @@ class OffreListView(LoginRequiredMixin, ListView):
 class PropositionListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Proposition.objects.filter(responsable=self.request.user)
+
+
+class OffreDetailView(UserPassesTestMixin, DetailView):
+    model = Offre
+
+    def test_func(self):
+        if not self.request.user.is_authenticated:
+            return False
+        if self.request.user.is_staff:
+            return True
+        self.object = self.get_object()
+        return self.object.proposition.responsable == self.request.user

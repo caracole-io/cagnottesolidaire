@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import (OffreCreateView, OffreListView, ProjetCreateView, ProjetDetailView,
+from .views import (OffreCreateView, OffreDetailView, OffreListView, ProjetCreateView, ProjetDetailView,
                     ProjetListView, PropositionCreateView, PropositionDetailView, PropositionListView)
 
 app_name = 'projets'
@@ -19,6 +19,8 @@ urlpatterns = [
         name='offre_create'),
     url(r'^offres$', OffreListView.as_view(),
         name='offre_list'),
+    url(r'^offre/(?P<pk>\d+)$', OffreDetailView.as_view(),
+        name='offre'),
     url(r'^propositions$', PropositionListView.as_view(),
         name='proposition_list'),
 ]
