@@ -60,7 +60,11 @@ class TestProjet(TestCase):
         self.assertEqual(self.client.get(reverse('projets:offre_create', kwargs=propd)).status_code, 302)
         self.client.login(username='a', password='a')
         self.assertEqual(self.client.get(reverse('projets:offre_create', kwargs=propd)).status_code, 200)
-        r = self.client.post(reverse('projets:offre_create', kwargs=propd))
+        # min price is 20, so trying 18 should return an error
+        r = self.client.post(reverse('projets:offre_create', kwargs=propd), {'prix': '18'})
+        self.assertEqual(Offre.objects.count(), 0)
+        self.assertEqual(r.status_code, 200)
+        r = self.client.post(reverse('projets:offre_create', kwargs=propd), {'prix': '22'})
         self.assertEqual(Offre.objects.count(), 1)
         self.assertEqual(r.status_code, 302)
         self.assertEqual(r.url, reverse('projets:proposition', kwargs=propd))
@@ -76,7 +80,7 @@ class TestProjet(TestCase):
         proj = Projet.objects.create(nom='quatre', responsable=guy, objectif='nothing', finances=43,
                                      fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
         prop = Proposition.objects.create(nom='cinq', description='nope', prix=20, projet=proj, responsable=guy)
-        offr = Offre.objects.create(proposition=prop, beneficiaire=guy)
+        offr = Offre.objects.create(proposition=prop, beneficiaire=guy, prix=3)
         self.assertEqual(self.client.get(reverse('projets:offre_list')).status_code, 200)
         self.assertEqual(self.client.get(reverse('projets:proposition_list')).status_code, 200)
         self.assertEqual(str(offr), 'offre de a sur cinq (projet quatre)')

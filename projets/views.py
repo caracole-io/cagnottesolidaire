@@ -1,11 +1,11 @@
 from datetime import date
-import sys
 
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import mail_admins
 from django.shortcuts import get_object_or_404
+from django.template.loader import get_template
 from django.views.generic import CreateView, DetailView, ListView
 
 from .forms import OffreForm, ProjetForm
