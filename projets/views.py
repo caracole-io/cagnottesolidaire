@@ -1,6 +1,7 @@
 from datetime import date
 import sys
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import mail_admins
@@ -64,12 +65,12 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Votre offre a été correctement ajoutée !')
         messages.info(self.request, 'Dès qu’elle sera validée par %s, vous recevrez un mail' %
                       form.instance.proposition.responsable)
-        try:
-            mail = get_template('projets/mails/offre_create.txt').render({'offre': form.instance})
-            form.instance.proposition.responsable.email_user('Nouvelle offre sur votre proposition !', mail)
-        except:
-            mail_admins('mail d’offre pas envoyé', f'{form.instance.proposition} / {form.instance.beneficiaire}')
-
+        if not settings.DEBUG:
+            try:
+                mail = get_template('projets/mails/offre_create.txt').render({'offre': form.instance})
+                form.instance.proposition.responsable.email_user('Nouvelle offre sur votre proposition !', mail)
+            except:
+                mail_admins('mail d’offre pas envoyé', f'{form.instance.proposition} / {form.instance.beneficiaire}')
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
