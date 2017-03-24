@@ -7,6 +7,7 @@ from django.core.mail import mail_admins
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, DetailView, ListView
 
+from .forms import OffreForm, ProjetForm
 from .models import Offre, Projet, Proposition
 
 
@@ -16,7 +17,7 @@ class ProjetListView(ListView):
 
 class ProjetCreateView(LoginRequiredMixin, CreateView):
     model = Projet
-    fields = ['nom', 'objectif', 'finances', 'fin_depot', 'fin_achat', 'image']
+    form_class = ProjetForm
 
     def form_valid(self, form):
         form.instance.responsable = self.request.user
@@ -52,7 +53,7 @@ class PropositionDetailView(DetailView):
 
 class OffreCreateView(LoginRequiredMixin, CreateView):
     model = Offre
-    fields = ['remarques']
+    form_class = OffreForm
 
     def get_proposition(self):
         return get_object_or_404(Proposition, slug=self.kwargs.get('slug', None))
@@ -76,6 +77,10 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         proposition = self.get_proposition()
         ct = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()
         return super().get_context_data(projet=projet, proposition=proposition, count=ct, object=proposition, **kwargs)
+
+    def get_initial(self):
+        prop = self.get_proposition()
+        return {'prix': prop.prix, 'proposition': prop}
 
 
 class OffreListView(LoginRequiredMixin, ListView):
