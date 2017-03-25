@@ -10,11 +10,13 @@ from autoslug.fields import AutoSlugField
 
 
 def upload_to_proj(instance, filename):
-    return 'projets/proj_%s.%s' % (instance.slug, filename.split('.')[-1])
+    ext = filename.split('.')[-1]
+    return f'projets/proj_{instance.slug}.{ext}'
 
 
 def upload_to_prop(instance, filename):
-    return 'projets/proj_%s_prop_%s.%s' % (instance.projet.slug, instance.slug, filename.split('.')[-1])
+    ext = filename.split('.')[-1]
+    return f'projets/proj_{instance.projet.slug}_prop_{instance.slug}.{ext}'
 
 
 def validate_positive(value):
