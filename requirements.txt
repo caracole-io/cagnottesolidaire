@@ -11,3 +11,5 @@ django-registration-redux==1.4
 django==1.10.6
 olefile==0.44             # via pillow
 pillow==4.0.0
+python-memcached==1.58
+six==1.10.0               # via python-memcached

@@ -3,4 +3,5 @@ django-autoslug
 django-bootstrap3
 django-registration-redux
 Pillow
+python-memcached
 -e git://github.com/Nim65s/django-YummyEmailOrUsernameInsensitiveAuth.git#egg=django-yeouia
