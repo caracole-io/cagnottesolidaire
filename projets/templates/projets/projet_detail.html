@@ -71,24 +71,53 @@
       <h2>Offres validées sur ce projet</h2>
 
       <table class="table table-stripped">
-        <tr><th>Numéro</th><th class="text-right">Prix</th><th>Paiement reçu</th><th>Personne</th><th>Email</th></tr>
+        <tr>
+          <th>Numéro</th><th class="text-right">Prix</th><th>Paiement reçu</th>
+          <th>Personne</th><th>Email</th><th>Remarques</th>
+        </tr>
         {% for offre in projet.offres %}
         <tr>
           <td>{{ offre.pk }}</td>
           <td class="text-right">{{ offre.prix }} €</td>
           <td>
             {% if offre.paye %}ok{% else %}
-            <a href="{% url 'projets:offre_paye' pk=offre.pk %}" type="button" class="btn btn-success">Je l’ai !</a>
+            <a href="{% url 'projets:offre_paye' pk=offre.pk %}" type="button" class="btn btn-success btn-xs">Je l’ai !</a>
             {% endif %}
           </td>
           <td>{% firstof offre.beneficiaire.get_full_name offre.beneficiaire_s %}</td>
           <td><a href="mailto:{{ offre.beneficiaire.email }}">{{ offre.beneficiaire.email }}</a></td>
+          <td>
+            {% if offre.remarques %}
+            <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#rmqs-{{ offre.pk }}">Voir</a>
+            {% endif %}
+          </td>
         </tr>
         {% empty %}
         <tr><td colspan="5">Il n’y a pas encore d’offres</td></tr>
         {% endfor %}
       </table>
       <p>Encaissé pour le projet: {{ projet.somme_encaissee }} € sur {{ projet.somme }} € promis</p>
+
+      {% for offre in projet.offres %}{% if offre.remarques %}
+      <div class="modal fade" id="rmqs-{{ offre.pk }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Remarques pour l’offre {{ offre.pk }}</h4>
+            </div>
+            <div class="modal-body">
+              {{ offre.remarques }}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}{% endfor %}
+
+
       {% endif %}{% endif %}
       {% endblock %}
 

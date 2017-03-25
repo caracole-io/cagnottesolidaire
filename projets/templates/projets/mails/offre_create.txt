@@ -3,6 +3,11 @@ Bonjour {{ offre.responsable_s }},
 {{ offre.beneficiaire_s }} vient de faire une offre sur votre proposition
 {{ offre.proposition }} du projet {{ offre.proposition.projet }} !
 
+{% if offre.remarques %}
+Remarques à propos de cette offre:
+> {{ offre.remarques }}
+{% endif %}
+
 Vous pouvez aller la valider sur:
 https://cagnottesolidaire.totheweb.fr{% url 'projets:proposition' p_slug=offre.proposition.projet.slug slug=offre.proposition.slug %}
 
