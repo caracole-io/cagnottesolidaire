@@ -127,7 +127,7 @@ SITE_ID = 1
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-STATIC_ROOT = join(BASE_DIR, 'static_dest') if DEBUG else '/var/www/{PROJECT}/static_dest'
+STATIC_ROOT = join(BASE_DIR, 'static_dest') if DEBUG else f'/var/www/{PROJECT}/static_dest'
 
 CACHES = {
     "default": {
