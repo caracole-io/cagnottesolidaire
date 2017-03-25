@@ -46,6 +46,7 @@
             <p class="pull-left">{{ proposition.prix }} €</p>
             <p class="pull-right">{{ proposition.offres.1 }} / {{ proposition.ben_s }}</p>
             </div>
+            <hr>
             <p class="obj">{{ proposition.description|linebreaksbr|truncatewords:20 }}</p>
             <p class="text-center"><a type="button" class="btn btn-success" href="{{ proposition.absolute_url }}">Go »</a></p>
           </div>
