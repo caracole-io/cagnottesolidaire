@@ -1,9 +1,9 @@
 Bonjour {{ offre.beneficiaire_s }}
 
-{{ offre.responsable_s }} vient de valider votre offre sur
-{{ offre.proposition }} du projet {{ offre.proposition.projet }} !
+{{ offre.responsable_s }} vient d’accepter votre offre sur la proposition
+«{{ offre.proposition }}» pour financer le projet «{{ offre.proposition.projet }}» !
 
-Il ne vous reste donc plus qu’à donner un chèque adressé à de {{ offre.prix }} € à
+Il ne vous reste donc plus qu’à donner un chèque adressé à «Caracole» de {{ offre.prix }} € à
 {{ offre.proposition.projet.responsable_s }}, en mentionnant au dos «Offre {{ offre.pk }}».
 
 Bonne journée !

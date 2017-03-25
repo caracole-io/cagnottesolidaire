@@ -1,0 +1,14 @@
+Bonjour {{ offre.beneficiaire_s }},
+
+{{ offre.responsable_s }} vient de refuser votre offre sur la proposition
+«{{ offre.proposition }}» pour financer le projet «{{ offre.proposition.projet }}».
+
+Merci quand même pour l’offre !
+
+
+--
+
+Ce message est automatique, il est inutile d’y répondre.
+
+En cas de problème, vous pouvez contacter
+cagnottesolidaire@framalistes.org
