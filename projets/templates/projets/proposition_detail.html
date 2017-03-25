@@ -24,13 +24,18 @@
 
 {% block proposition_content %}
 
-{% if today <= projet.fin_achat %}
 <hr>
-<p class="text-center"><a href="{% url 'projets:offre_create' p_slug=projet.slug slug=proposition.slug %}"
-                          type="button" class="btn btn-success btn-large">Faire une offre !</a></p>
+<p class="text-center">
+{% if proposition.offrable %}
+<a href="{% url 'projets:offre_create' p_slug=projet.slug slug=proposition.slug %}"
+   type="button" class="btn btn-success btn-large">Faire une offre !</a>
+{% else %}
+Trop tard ! Il n’est plus possible de faire des offres sur cette proposition.
 {% endif %}
+</p>
 
 {% if request.user.is_authenticated %}{% if request.user.is_staff or proposition.responsable == request.user %}
+<hr>
 <h2>Offres sur cette proposition</h2>
 
 <table class="table table-stripped">
