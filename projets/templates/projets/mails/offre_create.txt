@@ -4,8 +4,7 @@ Bonjour {{ offre.responsable_s }},
 {{ offre.proposition }} du projet {{ offre.proposition.projet }} !
 
 Vous pouvez aller la valider sur:
-https://cagnottesolidaire.totheweb.fr{% url 'projets:proposition'
-p_slug=offre.proposition.projet.slug slug=offre.proposition.slug %}
+https://cagnottesolidaire.totheweb.fr{% url 'projets:proposition' p_slug=offre.proposition.projet.slug slug=offre.proposition.slug %}
 
 Bonne journée !
 
