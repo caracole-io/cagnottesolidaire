@@ -42,7 +42,7 @@
             <img alt="image pour {{ proposition }}" src="{% if proposition.image %}{{ proposition.image.url }}{% else %}{% static 'img/blank.png' %}{% endif %}" />
             </a>
             <h2>{{ proposition.link }}</h2>
-            <p class="text-right">{{ proposition.offres.1 }} / {{ proposition.ben_s }}</p>
+            <p class="text-right">{{ proposition.prix }} €, {{ proposition.offres.1 }} / {{ proposition.ben_s }}</p>
             <p class="obj">{{ proposition.description|linebreaksbr|truncatewords:20 }}</p>
             <p class="text-center"><a type="button" class="btn btn-success" href="{{ proposition.absolute_url }}">Go »</a></p>
           </div>
