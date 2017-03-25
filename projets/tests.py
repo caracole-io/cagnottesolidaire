@@ -155,3 +155,30 @@ class TestProjet(TestCase):
         self.client.login(username='a', password='a')
         self.assertEqual(self.client.get(paye).status_code, 302)
         self.assertEqual(Offre.objects.first().paye, True)
+
+    def test_offrable(self):
+        a, b, c, s = User.objects.all()
+        proj = Projet.objects.create(nom='fifth', responsable=a, objectif='nothing', finances=43,
+                                     fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+        prop = Proposition.objects.create(nom='Pipo', description='nope', prix=20, projet=proj, responsable=b,
+                                          beneficiaires=2)
+        self.client.login(username='c', password='c')
+        self.assertEqual(Offre.objects.count(), 0)
+        url = reverse('projets:offre_create', kwargs={'p_slug': proj.slug, 'slug': prop.slug})
+        self.assertEqual(self.client.post(url, {'prix': '21'}).status_code, 302)
+        self.assertEqual(Offre.objects.count(), 1)
+        self.assertEqual(self.client.post(url, {'prix': '21'}).status_code, 302)
+        self.assertEqual(Offre.objects.count(), 2)
+        self.assertEqual(self.client.post(url, {'prix': '21'}).status_code, 302)
+        self.assertEqual(Offre.objects.count(), 3)
+
+        # old
+        proj = Projet.objects.create(nom='sixth', responsable=a, objectif='nothing', finances=43,
+                                     fin_depot=date(2014, 12, 31), fin_achat=date(2015, 12, 31))
+        prop = Proposition.objects.create(nom='popo', description='nope', prix=20, projet=proj, responsable=b,
+                                          beneficiaires=2)
+        self.client.login(username='c', password='c')
+        self.assertEqual(Offre.objects.count(), 3)
+        url = reverse('projets:offre_create', kwargs={'p_slug': proj.slug, 'slug': prop.slug})
+        self.assertEqual(self.client.post(url, {'prix': '21'}).status_code, 403)
+        self.assertEqual(Offre.objects.count(), 3)

@@ -63,6 +63,8 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         proposition = self.get_proposition()
+        if not proposition.offrable():
+            raise PermissionDenied
         form.instance.proposition = proposition
         form.instance.beneficiaire = self.request.user
         messages.success(self.request, 'Votre offre a été correctement ajoutée !')

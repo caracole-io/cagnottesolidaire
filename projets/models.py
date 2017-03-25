@@ -101,10 +101,9 @@ class Proposition(AbstractModel):
         return [self.offre_set.filter(**f).count() for f in [{}, {'valide': True}, {'paye': True}]]
 
     def offrable(self):
-        if date.today() <= self.projet.fin_achat:
+        if date.today() > self.projet.fin_achat:
             return False
         return self.beneficiaires == 0 or self.offre_set.filter(valide=True).count() < self.beneficiaires
-
 
     def somme(self):
         return query_sum(self.offre_set.filter(valide=True))
