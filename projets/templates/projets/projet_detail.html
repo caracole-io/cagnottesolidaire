@@ -66,7 +66,32 @@
         {% endif %}
 
       </div>
+
+      {% if request.user.is_authenticated %}{% if request.user.is_staff or projet.responsable == request.user %}
+      <h2>Offres validées sur ce projet</h2>
+
+      <table class="table table-stripped">
+        <tr><th>Numéro</th><th class="text-right">Prix</th><th>Paiement reçu</th><th>Personne</th><th>Email</th></tr>
+        {% for offre in projet.offres %}
+        <tr>
+          <td>{{ offre.pk }}</td>
+          <td class="text-right">{{ offre.prix }} €</td>
+          <td>
+            {% if offre.paye %}ok{% else %}
+            <a href="{% url 'projets:offre_paye' pk=offre.pk %}" type="button" class="btn btn-success">Je l’ai !</a>
+            {% endif %}
+          </td>
+          <td>{% firstof offre.beneficiaire.get_full_name offre.beneficiaire_s %}</td>
+          <td><a href="mailto:{{ offre.beneficiaire.email }}">{{ offre.beneficiaire.email }}</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">Il n’y a pas encore d’offres</td></tr>
+        {% endfor %}
+      </table>
+      <p>Encaissé pour le projet: {{ projet.somme_encaissee }} € sur {{ projet.somme }} € promis</p>
+      {% endif %}{% endif %}
       {% endblock %}
+
     </div>
   </div>
 </div>

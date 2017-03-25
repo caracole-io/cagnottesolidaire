@@ -24,6 +24,8 @@ urlpatterns = [
         name='offre_ok'),
     url(r'^offre/(?P<pk>\d+)/ko$', views.offre_ko,
         name='offre_ko'),
+    url(r'^offre/(?P<pk>\d+)/paye$', views.offre_paye,
+        name='offre_paye'),
     url(r'^propositions$', views.PropositionListView.as_view(),
         name='proposition_list'),
 ]

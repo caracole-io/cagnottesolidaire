@@ -65,8 +65,14 @@ class Projet(AbstractModel):
     def get_absolute_url(self):
         return reverse('projets:projet', kwargs={'slug': self.slug})
 
+    def offres(self):
+        return Offre.objects.filter(proposition__projet=self, valide=True)
+
     def somme(self):
-        return query_sum(Offre.objects.filter(proposition__projet=self, valide=True))
+        return query_sum(self.offres())
+
+    def somme_encaissee(self):
+        return query_sum(self.offres().filter(paye=True))
 
     def progress(self):
         return int(round(100 * self.somme() / self.finances))

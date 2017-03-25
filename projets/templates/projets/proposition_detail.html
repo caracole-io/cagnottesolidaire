@@ -30,8 +30,7 @@
                           type="button" class="btn btn-success btn-large">Faire une offre !</a></p>
 {% endif %}
 
-{% if request.user.is_authenticated %}
-{% if request.user.is_staff or proposition.responsable == request.user %}
+{% if request.user.is_authenticated %}{% if request.user.is_staff or proposition.responsable == request.user %}
 <h2>Offres sur cette proposition</h2>
 
 <table class="table table-stripped">
@@ -61,7 +60,6 @@
 </table>
 <p>Récolté pour le projet «{{ projet.link }}»: {{ proposition.somme }} €</p>
 
-{% endif %}
-{% endif %}
+{% endif %}{% endif %}
 {% endblock %}
 {% endblock %}

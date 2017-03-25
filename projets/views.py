@@ -138,3 +138,14 @@ def offre_ko(request, pk):
     except Exception as e:
         mail_admins('mail d’offre KO pas envoyé', f'{offre.pk} / {offre.beneficiaire_s}:\n{e!r}')
     return redirect(offre)
+
+
+@login_required
+def offre_paye(request, pk):
+    offre = get_object_or_404(Offre, pk=pk)
+    if offre.proposition.projet.responsable != request.user:
+        raise PermissionDenied
+    offre.paye = True
+    offre.save()
+    messages.success(request, f'L’offre {offre.pk} a bien été marquée comme payée !')
+    return redirect(offre.proposition.projet)
