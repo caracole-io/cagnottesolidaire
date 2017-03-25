@@ -16,9 +16,8 @@ from pathlib import Path
 PROJECT = "cagnottesolidaire"
 PROJECT_VERBOSE = "Cagnotte Solidaire"
 MAIL_USER = "majo"
-SELF_MAIL = False
 ALLOWED_HOSTS = ["cagnottesolidaire.totheweb.fr"]
-ALLOWED_HOSTS.append("www.%s" % ALLOWED_HOSTS[0])
+ALLOWED_HOSTS.append("www." + ALLOWED_HOSTS[0])
 
 BASE_DIR = dirname(dirname(abspath(__file__)))
 
@@ -34,15 +33,15 @@ if DEBUG:
 EMAIL_SUBJECT_PREFIX = ("[%s Dev] " if DEBUG else "[%s] ") % PROJECT_VERBOSE
 
 EMAIL_USE_SSL = True
-EMAIL_HOST = "mail.gandi.net" if SELF_MAIL else "SSL0.OVH.NET"
+EMAIL_HOST = "mail.gandi.net"
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "%s@%s" % (MAIL_USER, ALLOWED_HOSTS[0] if SELF_MAIL else "totheweb.fr")
-SERVER_EMAIL = "%s+%s@%s" % (MAIL_USER, PROJECT, ALLOWED_HOSTS[0] if SELF_MAIL else "totheweb.fr")
-DEFAULT_FROM_EMAIL = "%s <%s@%s>" % (PROJECT_VERBOSE, MAIL_USER, ALLOWED_HOSTS[0] if SELF_MAIL else "totheweb.fr")
+EMAIL_HOST_USER = f"{MAIL_USER}@totheweb.fr"
+SERVER_EMAIL = f"{MAIL_USER}+{PROJECT}@totheweb.fr"
+DEFAULT_FROM_EMAIL = f"{PROJECT_VERBOSE} <{MAIL_USER}@totheweb.fr>"
 EMAIL_HOST_PASSWORD = (CONF_DIR / "email_password").open().read().strip()
 EMAIL_BACKEND = 'django.core.mail.backends.%s' % ('locmem.EmailBackend' if DEBUG else 'smtp.EmailBackend')
 
-ADMINS = (("Guilhem Saurel", "guilhem+admin-%s@saurel.me" % PROJECT),)
+ADMINS = (("Guilhem Saurel", f"guilhem+admin-{PROJECT}@saurel.me"),)
 MANAGERS = ADMINS
 
 INSTALLED_APPS = [
@@ -70,7 +69,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = '%s.urls' % PROJECT
+ROOT_URLCONF = f'{PROJECT}.urls'
 
 TEMPLATES = [
     {
@@ -93,7 +92,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = '%s.wsgi.application' % PROJECT
+WSGI_APPLICATION = f'{PROJECT}.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -128,15 +127,14 @@ SITE_ID = 1
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-STATIC_ROOT = join(BASE_DIR, 'static_dest') if DEBUG else '/var/www/%s/static_dest' % PROJECT
+STATIC_ROOT = join(BASE_DIR, 'static_dest') if DEBUG else '/var/www/{PROJECT}/static_dest'
 
-if not DEBUG:  # pragma: no cover
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-            "LOCATION": "127.0.0.1:11211",
-        }
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "LOCATION": "127.0.0.1:11211",
     }
+}
 
 LOGGING = {
     "version": 1,
