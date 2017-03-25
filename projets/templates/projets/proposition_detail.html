@@ -11,9 +11,9 @@
 
 <h2>{{ proposition.link }}</h2>
 <dl class="dl-horizontal">
-  <dt>Responsable</dt>       <dd>{{ proposition.responsable.get_full_name }}</dd>
+  <dt>Responsable</dt>       <dd>{{ proposition.responsable_s }}</dd>
   <dt>Prix Min.</dt>         <dd>{{ proposition.prix }} €</dd>
-  <dt>Bénéficiaires max.</dt>     <dd>{{ proposition.ben_str }}</dd>
+  <dt>Bénéficiaires max.</dt>     <dd>{{ proposition.ben_s }}</dd>
   <dt>Offres (validées)</dt> <dd>{{ proposition.offres.0 }} ({{ proposition.offres.1 }})</dd>
 </dl>
 
@@ -36,16 +36,23 @@
 <table class="table table-stripped">
   <tr>
     <th>Personne</th><th class="text-right">Prix</th>
-    <th class="text-right">Validée</th><th class="text-right">Paiement reçu</th>
-    <th>TODO</th>
+    <th>Validation</th><th>Paiement reçu</th>
+    <th>Email</th>
   </tr>
   {% for offre in proposition.offre_set.all %}
   <tr>
-    <td>{{ offre.beneficiaire }}</td>
+    <td>{% firstof offre.beneficiaire.get_full_name offre.beneficiaire_s %}</td>
     <td class="text-right">{{ offre.prix }} €</td>
-    <td class="text-right">{{ offre.valide|yesno:"oui,non,pas encore" }}</td>
-    <td class="text-right">{{ offre.paye|yesno }}</td>
-    <td><a href="{% url 'projets:offre' pk=offre.pk %}">go</a></td>
+    <td>
+      {% if offre.valide == None %}
+      <a type="button" class="btn btn-success" href="{% url 'projets:offre_ok' pk=offre.pk %}">Accepter</a>
+      <a type="button" class="btn btn-danger"   href="{% url 'projets:offre_ko' pk=offre.pk %}">Refuser</a>
+      {% else %}
+      {{ offre.valide|yesno }}
+      {% endif %}
+    </td>
+    <td>{% if offre.valide %}{{ offre.paye|yesno }}{% endif %}</td>
+    <td><a href="mailto:{{ offre.beneficiaire.email }}">{{ offre.beneficiaire.email }}</a></td>
   </tr>
   {% empty %}
   <tr><td colspan="5">Il n’y a pas encore d’offres</td></tr>

@@ -8,6 +8,7 @@
   <tr>
     <th>Projet</th><th>Proposition</th><th class="text-right">Prix</th><th class="text-right">Bénéficiaires max.</th>
     <th class="text-right">Offres</th><th class="text-right">dont validées</th><th class="text-right">dont payées</th>
+    <th>Récolté</th>
   </tr>
   {% for proposition in proposition_list %}
   <tr>
@@ -16,6 +17,7 @@
     {% for offre in proposition.offres %}
     <td class="text-right">{{ offre }}</td>
     {% endfor %}
+    <td>{{ proposition.somme }} €</td>
   </tr>
   {% empty %}
   <tr><td colspan="5">Vous n’avez pas encore fait de propositions</td></tr>

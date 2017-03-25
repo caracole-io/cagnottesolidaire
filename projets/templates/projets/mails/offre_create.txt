@@ -1,11 +1,13 @@
-Bonjour {{ offre.proposition.responsable }},
+Bonjour {{ offre.responsable_s }},
 
-{{ offre.beneficiaire }} vient de faire une offre sur votre proposition
-{{ offre.proposition }} du projet {{ offre.proposition.projet }}:
+{{ offre.beneficiaire_s }} vient de faire une offre sur votre proposition
+{{ offre.proposition }} du projet {{ offre.proposition.projet }} !
 
+Vous pouvez aller la valider sur:
 {% url 'projets:offre_list' %}{# TODO: offre_detail mais il faut la PK…#}
 
 Bonne journée !
+
 
 --
 

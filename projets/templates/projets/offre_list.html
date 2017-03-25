@@ -14,7 +14,7 @@
     <td>{{ offre.proposition.projet.link }}</td><td>{{ offre.proposition.link }}</td>
     <td class="text-right">{{ offre.proposition.prix }} €</td>
     <td class="text-right">{{ offre.valide|yesno:"oui,non,pas encore" }}</td>
-    <td class="text-right">{{ offre.paye|yesno }}</td>
+    <td class="text-right">{% if offre.valide %}{{ offre.paye|yesno }}{% endif %}</td>
   </tr>
   {% empty %}
   <tr><td colspan="5">Vous n’avez pas encore fait d’offres</td></tr>

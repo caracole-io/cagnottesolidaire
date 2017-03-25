@@ -8,18 +8,16 @@
     <div class="col-md-4">
       <h1>{{ projet.link }}</h1>
       <div class="progress">
-        {% with progress=projet.progress %}
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress.0 }}" aria-valuemin="0"
-             aria-valuemax="{{ projet.finances}}" style="width: {{ progress.1 }}%; min-width: 3em;">
-          {{ progress.0 }} €
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ projet.somme }}" aria-valuemin="0"
+             aria-valuemax="{{ projet.finances}}" style="width: {{ projet.progress }}%; min-width: 3em;">
+          {{ projet.somme }} €
         </div>
-        {% endwith %}
       </div>
       <dl class="dl-horizontal">
         <dt>Besoins</dt>    <dd>{{ projet.finances|intcomma }} €</dd>
         <dt>Fin Dépôt</dt>   <dd>{{ projet.fin_depot|naturalday }}</dd>
         <dt>Fin Achat</dt>   <dd>{{ projet.fin_achat|naturalday }}</dd>
-        <dt>Responsable</dt> <dd>{{ projet.responsable.get_full_name }}</dd>
+        <dt>Responsable</dt> <dd>{{ projet.responsable_s }}</dd>
       </dl>
       {% block projet_column %}
       {% endblock %}
@@ -43,7 +41,7 @@
             <img alt="image pour {{ proposition }}" src="{% if proposition.image %}{{ proposition.image.url }}{% else %}{% static 'img/blank.png' %}{% endif %}" />
             </a>
             <h2>{{ proposition.link }}</h2>
-            <p class="text-right"><span class="badge">{{ proposition.offres.1 }}</span> / {{ proposition.ben_str }}</p>
+            <p class="text-right"><span class="badge">{{ proposition.offres.1 }}</span> / {{ proposition.ben_s }}</p>
             <p class="obj">{{ proposition.description|linebreaksbr|truncatewords:20 }}</p>
             <p class="text-center"><a type="button" class="btn btn-success" href="{{ proposition.absolute_url }}">Go »</a></p>
           </div>

@@ -69,8 +69,11 @@ class Projet(AbstractModel):
         return query_sum(Offre.objects.filter(proposition__projet=self, valide=True))
 
     def progress(self):
-        somme = self.somme()
-        return somme, somme / self.finances
+        return int(round(100 * self.somme() / self.finances))
+
+    @property
+    def responsable_s(self):
+        return self.responsable.get_short_name() or self.responsable.get_username()
 
 
 class Proposition(AbstractModel):
@@ -94,8 +97,13 @@ class Proposition(AbstractModel):
     def somme(self):
         return query_sum(self.offre_set.filter(valide=True))
 
-    def ben_str(self):
+    @property
+    def ben_s(self):
         return self.beneficiaires or '∞'
+
+    @property
+    def responsable_s(self):
+        return self.responsable.get_short_name() or self.responsable.get_username()
 
 
 class Offre(models.Model):
@@ -114,3 +122,11 @@ class Offre(models.Model):
 
     def get_absolute_url(self):
         return self.proposition.absolute_url
+
+    @property
+    def responsable_s(self):
+        return self.proposition.responsable.get_short_name() or self.proposition.responsable.get_username()
+
+    @property
+    def beneficiaire_s(self):
+        return self.beneficiaire.get_short_name() or self.beneficiaire.get_username()

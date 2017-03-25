@@ -3,8 +3,10 @@ from datetime import date
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.mail import mail_admins
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import get_template
 from django.views.generic import CreateView, DetailView, ListView
 
@@ -60,17 +62,17 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         return get_object_or_404(Proposition, slug=self.kwargs.get('slug', None))
 
     def form_valid(self, form):
-        form.instance.proposition = self.get_proposition()
+        proposition = self.get_proposition()
+        form.instance.proposition = proposition
         form.instance.beneficiaire = self.request.user
         messages.success(self.request, 'Votre offre a été correctement ajoutée !')
-        messages.info(self.request, 'Dès qu’elle sera validée par %s, vous recevrez un mail' %
-                      form.instance.proposition.responsable)
+        messages.info(self.request, f'Dès qu’elle sera validée par {proposition.responsable_s}, vous recevrez un mail')
         if not settings.DEBUG:
             try:
                 mail = get_template('projets/mails/offre_create.txt').render({'offre': form.instance})
-                form.instance.proposition.responsable.email_user('Nouvelle offre sur votre proposition !', mail)
-            except:
-                mail_admins('mail d’offre pas envoyé', f'{form.instance.proposition} / {form.instance.beneficiaire}')
+                proposition.responsable.email_user('Nouvelle offre sur votre proposition !', mail)
+            except Exception as e:
+                mail_admins('mail d’offre pas envoyé', f'{form.instance.pk} / {proposition.responsable}:\n{e!r}')
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -104,3 +106,35 @@ class OffreDetailView(UserPassesTestMixin, DetailView):
             return True
         self.object = self.get_object()
         return self.object.proposition.responsable == self.request.user
+
+
+@login_required
+def offre_ok(request, pk):
+    offre = get_object_or_404(Offre, pk=pk)
+    if offre.proposition.responsable != request.user:
+        raise PermissionDenied
+    offre.valide = True
+    offre.save()
+    messages.success(request, f'Vous avez accepté l’offre de {offre.beneficiaire_s}, un mail lui a été envoyé')
+    try:
+        mail = get_template('projets/mails/offre_ok.txt').render({'offre': offre})
+        offre.beneficiaire.email_user('Votre offre a été acceptée !', mail)
+    except Exception as e:
+        mail_admins('mail d’offre OK pas envoyé', f'{offre.pk} / {offre.beneficiaire_s}:\n{e!r}')
+    return redirect(offre)
+
+
+@login_required
+def offre_ko(request, pk):
+    offre = get_object_or_404(Offre, pk=pk)
+    if offre.proposition.responsable != request.user:
+        raise PermissionDenied
+    offre.valide = False
+    offre.save()
+    messages.warning(request, f'Vous avez refusé l’offre de {offre.beneficiaire_s}, un mail lui a été envoyé')
+    try:
+        mail = get_template('projets/mails/offre_ko.txt').render({'offre': offre})
+        offre.beneficiaire.email_user('Votre offre a été refusée', mail)
+    except Exception as e:
+        mail_admins('mail d’offre KO pas envoyé', f'{offre.pk} / {offre.beneficiaire_s}:\n{e!r}')
+    return redirect(offre)
