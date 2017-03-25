@@ -7,7 +7,7 @@ h1, h2 { text-align: center; }
 .projp img { border-radius: 10px 10px 0 0; width: 100%; height: 200px; }
 .projp p { margin: 0 10px; }
 .projp p.obj { height: 100px; overflow: hidden; text-overflow: ellipsis; }
-.projp p:last-child { margin-top: 10px; }
+.projp p.text-center { margin-top: 10px; }
 .projp-new { background: #dff0d8; }
 
 
