@@ -27,6 +27,10 @@ def validate_future(value):
         raise ValidationError(f'{value} est déjà passé')
 
 
+def query_sum(queryset, field='prix'):
+    return queryset.aggregate(s=models.functions.Coalesce(models.Sum(field), 0))['s']
+
+
 class AbstractModel(models.Model):
     nom = models.CharField(max_length=250, unique=True)
     slug = AutoSlugField(populate_from='nom', unique=True)
@@ -61,6 +65,13 @@ class Projet(AbstractModel):
     def get_absolute_url(self):
         return reverse('projets:projet', kwargs={'slug': self.slug})
 
+    def somme(self):
+        return query_sum(Offre.objects.filter(proposition__projet=self, valide=True))
+
+    def progress(self):
+        somme = self.somme()
+        return somme, somme / self.finances
+
 
 class Proposition(AbstractModel):
     projet = models.ForeignKey(Projet)
@@ -79,6 +90,12 @@ class Proposition(AbstractModel):
 
     def offres(self):
         return [self.offre_set.filter(**f).count() for f in [{}, {'valide': True}, {'paye': True}]]
+
+    def somme(self):
+        return query_sum(self.offre_set.filter(valide=True))
+
+    def ben_str(self):
+        return self.beneficiaires or '∞'
 
 
 class Offre(models.Model):

@@ -10,11 +10,11 @@
 {% endif %}
 
 <h2>{{ proposition.link }}</h2>
-{# TODO badge #}
 <dl class="dl-horizontal">
-  <dt>Responsable</dt>   <dd>{{ proposition.responsable }}</dd>
-  <dt>Prix</dt>          <dd>{{ proposition.prix }} €</dd>
-  <dt>Bénéficiaires</dt> <dd>{% if proposition.beneficiaires == 0 %}∞{% else %}{{ proposition.beneficiaires }}{% endif %}</dd>
+  <dt>Responsable</dt>       <dd>{{ proposition.responsable.get_full_name }}</dd>
+  <dt>Prix Min.</dt>         <dd>{{ proposition.prix }} €</dd>
+  <dt>Bénéficiaires max.</dt>     <dd>{{ proposition.ben_str }}</dd>
+  <dt>Offres (validées)</dt> <dd>{{ proposition.offres.0 }} ({{ proposition.offres.1 }})</dd>
 </dl>
 
 {% endblock %}
@@ -29,18 +29,29 @@
                           type="button" class="btn btn-success btn-large">Faire une offre !</a></p>
 {% endif %}
 
-<p class="text-right">
-<a type="button" class="btn btn-info" href="{% url 'projets:projet' slug=projet.slug %}">← Retour au projet «{{ projet }}»</a>
-</p>
-
 {% if request.user.is_authenticated %}
 {% if request.user.is_staff or proposition.responsable == request.user %}
 <h2>Offres sur cette proposition</h2>
-<ul>
+
+<table class="table table-stripped">
+  <tr>
+    <th>Personne</th><th class="text-right">Prix</th>
+    <th class="text-right">Validée</th><th class="text-right">Paiement reçu</th>
+    <th>TODO</th>
+  </tr>
   {% for offre in proposition.offre_set.all %}
-  <li><a href="{% url 'projets:offre' pk=offre.pk %}">{{ offre.beneficiaire }}</a></li>
+  <tr>
+    <td>{{ offre.beneficiaire }}</td>
+    <td class="text-right">{{ offre.prix }} €</td>
+    <td class="text-right">{{ offre.valide|yesno:"oui,non,pas encore" }}</td>
+    <td class="text-right">{{ offre.paye|yesno }}</td>
+    <td><a href="{% url 'projets:offre' pk=offre.pk %}">go</a></td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">Il n’y a pas encore d’offres</td></tr>
   {% endfor %}
-</ul>
+</table>
+
 {% endif %}
 {% endif %}
 {% endblock %}

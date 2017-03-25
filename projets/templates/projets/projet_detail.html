@@ -1,11 +1,31 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static humanize %}
 
 {% block content %}
 
 <div class="container">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-4">
+      <h1>{{ projet.link }}</h1>
+      <div class="progress">
+        {% with progress=projet.progress %}
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress.0 }}" aria-valuemin="0"
+             aria-valuemax="{{ projet.finances}}" style="width: {{ progress.1 }}%; min-width: 3em;">
+          {{ progress.0 }} €
+        </div>
+        {% endwith %}
+      </div>
+      <dl class="dl-horizontal">
+        <dt>Besoins</dt>    <dd>{{ projet.finances|intcomma }} €</dd>
+        <dt>Fin Dépôt</dt>   <dd>{{ projet.fin_depot|naturalday }}</dd>
+        <dt>Fin Achat</dt>   <dd>{{ projet.fin_achat|naturalday }}</dd>
+        <dt>Responsable</dt> <dd>{{ projet.responsable.get_full_name }}</dd>
+      </dl>
+      {% block projet_column %}
+      {% endblock %}
+    </div>
+
+    <div class="col-md-8">
       {% if object.image %}
       <a href="{{ object.absolute_url }}">
       <img alt="image pour {{ object }}" src="{{ object.image.url }}" class="projp-det-im" />
@@ -23,9 +43,9 @@
             <img alt="image pour {{ proposition }}" src="{% if proposition.image %}{{ proposition.image.url }}{% else %}{% static 'img/blank.png' %}{% endif %}" />
             </a>
             <h2>{{ proposition.link }}</h2>
+            <p class="text-right"><span class="badge">{{ proposition.offres.1 }}</span> / {{ proposition.ben_str }}</p>
             <p class="obj">{{ proposition.description|linebreaksbr|truncatewords:20 }}</p>
             <p class="text-center"><a type="button" class="btn btn-success" href="{{ proposition.absolute_url }}">Go »</a></p>
-            {# TODO badge nombre de gens #}
           </div>
         </div>
         {% if forloop.counter|divisibleby:"3" %}</div><div class="row">{% endif %}
@@ -47,18 +67,6 @@
         {% endif %}
 
       </div>
-      {% endblock %}
-    </div>
-
-    <div class="col-md-3">
-      <h1>{{ projet.link }}</h1>
-      <dl class="dl-horizontal">
-        <dt>Responsable</dt> <dd>{{ projet.responsable }}</dd>
-        <dt>Finances</dt>    <dd>{{ projet.finances }} €</dd>
-        <dt>Fin Dépôt</dt>   <dd>{{ projet.fin_depot }}</dd>
-        <dt>Fin Achat</dt>   <dd>{{ projet.fin_achat }}</dd>
-      </dl>
-      {% block projet_column %}
       {% endblock %}
     </div>
   </div>

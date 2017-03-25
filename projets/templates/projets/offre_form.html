@@ -3,9 +3,8 @@
 
 {% block proposition_content %}
 
-<h2>Faire une offre sur {{ projet }} / {{ proposition }} pour {{ proposition.prix }} €</h2>
+<h2>Faire une offre sur «{{ proposition.link }}» (pour {{ projet.link }})</h2>
 
-{# TODO style warning #}
 {% if count > 0 %}
 <div class="alert alert-warning" role="alert">
   Attention, vous avez déjà fait <strong>{{ count }} offre{{ count|pluralize }}</strong> sur cette proposition !
@@ -17,9 +16,9 @@
   {% csrf_token %}
   {% bootstrap_form form layout="horizontal" %}
   {% buttons layout="horizontal" %}
-  <a href="{% url 'projets:proposition' p_slug=projet.slug slug=proposition.slug %}"
-    type="button" class="btn btn-warning">Non</a>
   <button type="submit" class="btn btn-success">Oui, je suis sûr !</button>
+  <a href="{% url 'projets:proposition' p_slug=projet.slug slug=proposition.slug %}"
+    type="button" class="btn btn-danger">Non</a>
   {% endbuttons %}
 </form>
 
