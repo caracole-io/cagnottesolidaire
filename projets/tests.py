@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.contrib.auth.models import User
+from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -89,9 +90,11 @@ class TestProjet(TestCase):
         r = self.client.post(reverse('projets:offre_create', kwargs=propd), {'prix': '18'})
         self.assertEqual(Offre.objects.count(), 0)
         self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(mail.outbox), 0)
         r = self.client.post(reverse('projets:offre_create', kwargs=propd), {'prix': '22'})
         self.assertEqual(Offre.objects.count(), 1)
         self.assertEqual(r.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(r.url, reverse('projets:proposition', kwargs=propd))
         self.assertEqual(self.client.get(reverse('projets:proposition', kwargs=propd)).status_code, 200)
         # offre_detail
