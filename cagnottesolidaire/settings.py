@@ -24,9 +24,6 @@ BASE_DIR = dirname(dirname(abspath(__file__)))
 
 CONF_DIR = Path("/etc/django/") / PROJECT
 
-if not CONF_DIR.is_dir():
-    CONF_DIR.mkdir(parents=True)
-
 SECRET_KEY = (CONF_DIR / "secret_key.txt").open().read().strip()
 
 DEBUG = not (CONF_DIR / "prod").is_file()
