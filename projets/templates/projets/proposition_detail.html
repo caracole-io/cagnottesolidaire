@@ -9,22 +9,23 @@
 <hr>
 {% endif %}
 
-<h2>{{ proposition.link }}</h2>
+<h2>Proposition: {{ proposition.link }}</h2>
 <dl class="dl-horizontal">
   <dt>Responsable</dt>       <dd>{{ proposition.responsable_s }}</dd>
   <dt>Prix Min.</dt>         <dd>{{ proposition.prix }} €</dd>
   <dt>Bénéficiaires max.</dt>     <dd>{{ proposition.ben_s }}</dd>
   <dt>Offres (validées)</dt> <dd>{{ proposition.offres.0 }} ({{ proposition.offres.1 }})</dd>
 </dl>
+<p>{{ proposition.description }}</p>
 
 {% endblock %}
 
 {% block projet_content %}
-<p>{{ proposition.description }}</p>
 
 {% block proposition_content %}
 
 {% if today <= projet.fin_achat %}
+<hr>
 <p class="text-center"><a href="{% url 'projets:offre_create' p_slug=projet.slug slug=proposition.slug %}"
                           type="button" class="btn btn-success btn-large">Faire une offre !</a></p>
 {% endif %}
@@ -58,7 +59,7 @@
   <tr><td colspan="5">Il n’y a pas encore d’offres</td></tr>
   {% endfor %}
 </table>
-<p>Récolté pour {{ projet.link }}: {{ proposition.somme }} €</p>
+<p>Récolté pour le projet «{{ projet.link }}»: {{ proposition.somme }} €</p>
 
 {% endif %}
 {% endif %}
