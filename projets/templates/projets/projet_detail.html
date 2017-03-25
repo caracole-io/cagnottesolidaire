@@ -19,7 +19,7 @@
         <dt>Fin Achat</dt>   <dd>{{ projet.fin_achat|naturalday }}</dd>
         <dt>Responsable</dt> <dd>{{ projet.responsable_s }}</dd>
       </dl>
-      <p>{{ projet.objectif }}</p>
+      <p>{{ projet.objectif|linebreaks }}</p>
       {% block projet_column %}
       {% endblock %}
     </div>

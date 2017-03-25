@@ -16,7 +16,7 @@
   <dt>Bénéficiaires max.</dt>     <dd>{{ proposition.ben_s }}</dd>
   <dt>Offres (validées)</dt> <dd>{{ proposition.offres.0 }} ({{ proposition.offres.1 }})</dd>
 </dl>
-<p>{{ proposition.description }}</p>
+<p>{{ proposition.description|linebreaks }}</p>
 
 {% endblock %}
 
