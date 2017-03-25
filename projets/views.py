@@ -143,7 +143,7 @@ def offre_ko(request, pk):
 @login_required
 def offre_paye(request, pk):
     offre = get_object_or_404(Offre, pk=pk)
-    if offre.proposition.projet.responsable != request.user:
+    if offre.proposition.projet.responsable != request.user or not offre.valide:
         raise PermissionDenied
     offre.paye = True
     offre.save()
