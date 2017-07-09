@@ -6,10 +6,11 @@
 #
 -e git+git://github.com/Nim65s/django-YummyEmailOrUsernameInsensitiveAuth.git#egg=django-yeouia
 django-autoslug==1.9.3
-django-bootstrap3==8.2.1
-django-registration-redux==1.4
-django==1.10.6
+django-bootstrap3==8.2.3
+django-registration-redux==1.6
+django==1.11.3
 olefile==0.44             # via pillow
-pillow==4.0.0
+pillow==4.2.1
 python-memcached==1.58
+pytz==2017.2              # via django
 six==1.10.0               # via python-memcached
