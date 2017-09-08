@@ -10,11 +10,11 @@ from autoslug.fields import AutoSlugField
 
 
 def upload_to_proj(instance, filename):
-    return f'projets/proj_{instance.slug}.' + filename.split('.')[-1]  # pragma: no cover
+    return f'cagnottesolidaire/proj_{instance.slug}.' + filename.split('.')[-1]  # pragma: no cover
 
 
 def upload_to_prop(instance, filename):
-    return f'projets/proj_{instance.projet.slug}_prop_{instance.slug}.' + filename.split('.')[-1]  # pragma: no cover
+    return f'cagnottesolidaire/proj_{instance.projet.slug}_prop_{instance.slug}.' + filename.split('.')[-1]  # pragma: no cover
 
 
 def validate_positive(value):
@@ -63,7 +63,7 @@ class Projet(AbstractModel):
                                  help_text='format: 31/12/2017')
 
     def get_absolute_url(self):
-        return reverse('projets:projet', kwargs={'slug': self.slug})
+        return reverse('cagnottesolidaire:projet', kwargs={'slug': self.slug})
 
     def offres(self):
         return Offre.objects.filter(proposition__projet=self, valide=True)
@@ -95,7 +95,7 @@ class Proposition(AbstractModel):
         ordering = ('projet', 'prix')
 
     def get_absolute_url(self):
-        return reverse('projets:proposition', kwargs={'slug': self.slug, 'p_slug': self.projet.slug})
+        return reverse('cagnottesolidaire:proposition', kwargs={'slug': self.slug, 'p_slug': self.projet.slug})
 
     def offres(self):
         return [self.offre_set.filter(**f).count() for f in [{}, {'valide': True}, {'paye': True}]]

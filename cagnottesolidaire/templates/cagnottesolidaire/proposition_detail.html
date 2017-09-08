@@ -1,4 +1,4 @@
-{% extends "projets/projet_detail.html" %}
+{% extends "cagnottesolidaire/projet_detail.html" %}
 
 {% block projet_column %}
 
@@ -27,7 +27,7 @@
 <hr>
 <p class="text-center">
 {% if proposition.offrable %}
-<a href="{% url 'projets:offre_create' p_slug=projet.slug slug=proposition.slug %}"
+<a href="{% url 'cagnottesolidaire:offre_create' p_slug=projet.slug slug=proposition.slug %}"
    type="button" class="btn btn-success btn-large">Faire une offre !</a>
 {% else %}
 Trop tard ! Il n’est plus possible de faire des offres sur cette proposition.
@@ -50,8 +50,8 @@ Trop tard ! Il n’est plus possible de faire des offres sur cette proposition.
     <td class="text-right">{{ offre.prix }} €</td>
     <td>
       {% if offre.valide == None %}
-      <a type="button" class="btn btn-success btn-xs" href="{% url 'projets:offre_ok' pk=offre.pk %}">Accepter</a>
-      <a type="button" class="btn btn-danger btn-xs"   href="{% url 'projets:offre_ko' pk=offre.pk %}">Refuser</a>
+      <a type="button" class="btn btn-success btn-xs" href="{% url 'cagnottesolidaire:offre_ok' pk=offre.pk %}">Accepter</a>
+      <a type="button" class="btn btn-danger btn-xs"   href="{% url 'cagnottesolidaire:offre_ko' pk=offre.pk %}">Refuser</a>
       {% else %}
       {{ offre.valide|yesno }}
       {% endif %}

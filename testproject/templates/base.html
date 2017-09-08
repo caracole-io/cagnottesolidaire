@@ -31,21 +31,6 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Cagnottes</a></li>
           </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            {% if request.user.is_authenticated %}
-            <li class="navbar-text">Bonjour {{ request.user }} :)</li>
-            {% if request.user.is_staff %}
-            <li><a href="/admin">Admin</a></li>
-            {% endif %}
-            <li><a href="{% url 'projets:offre_list' %}">Mes offres</a></li>
-            <li><a href="{% url 'projets:proposition_list' %}">Mes Propositions</a></li>
-            <li><a href="{% url 'auth_logout' %}">Se déconnecter</a></li>
-            {% else %}
-            <li><a href="{% url 'auth_login' %}">Se connecter</a></li>
-            <li><a href="{% url 'registration_register' %}">Créer un compte</a></li>
-            {% endif %}
-          </ul>
         </div>
 
       </div>

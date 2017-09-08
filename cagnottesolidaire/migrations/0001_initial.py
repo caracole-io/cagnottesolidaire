@@ -6,7 +6,7 @@ import autoslug.fields
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import projets.models
+import cagnottesolidaire.models
 
 
 class Migration(migrations.Migration):
@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('valide', models.NullBooleanField(default=None, verbose_name='validé')),
                 ('paye', models.BooleanField(default=False, verbose_name='payé')),
                 ('remarques', models.TextField(blank=True)),
-                ('prix', models.DecimalField(decimal_places=2, max_digits=8, validators=[projets.models.validate_positive])),
+                ('prix', models.DecimalField(decimal_places=2, max_digits=8, validators=[cagnottesolidaire.models.validate_positive])),
                 ('beneficiaire', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -40,11 +40,11 @@ class Migration(migrations.Migration):
                 ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from='nom', unique=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
-                ('image', models.ImageField(blank=True, upload_to=projets.models.upload_to_proj, verbose_name='Image')),
+                ('image', models.ImageField(blank=True, upload_to=cagnottesolidaire.models.upload_to_proj, verbose_name='Image')),
                 ('objectif', models.TextField(verbose_name='Description de l’objectif de la cagnotte')),
-                ('finances', models.DecimalField(decimal_places=2, max_digits=8, validators=[projets.models.validate_positive], verbose_name='But à atteindre')),
-                ('fin_depot', models.DateField(help_text='format: 31/12/2017', validators=[projets.models.validate_future], verbose_name='Date de fin du dépôt des propositions')),
-                ('fin_achat', models.DateField(help_text='format: 31/12/2017', validators=[projets.models.validate_future], verbose_name='Date de fin des achats')),
+                ('finances', models.DecimalField(decimal_places=2, max_digits=8, validators=[cagnottesolidaire.models.validate_positive], verbose_name='But à atteindre')),
+                ('fin_depot', models.DateField(help_text='format: 31/12/2017', validators=[cagnottesolidaire.models.validate_future], verbose_name='Date de fin du dépôt des propositions')),
+                ('fin_achat', models.DateField(help_text='format: 31/12/2017', validators=[cagnottesolidaire.models.validate_future], verbose_name='Date de fin des achats')),
                 ('responsable', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -61,10 +61,11 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('description', models.TextField()),
-                ('prix', models.DecimalField(decimal_places=2, max_digits=8, validators=[projets.models.validate_positive])),
-                ('beneficiaires', models.IntegerField(default=1, help_text='0 pour un nombre illimité', validators=[projets.models.validate_positive], verbose_name='Nombre maximal de bénéficiaires')),
-                ('image', models.ImageField(blank=True, upload_to=projets.models.upload_to_prop, verbose_name='Image')),
-                ('projet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projets.Projet')),
+                ('prix', models.DecimalField(decimal_places=2, max_digits=8, validators=[cagnottesolidaire.models.validate_positive])),
+                ('beneficiaires', models.IntegerField(default=1, help_text='0 pour un nombre illimité',
+                                                      validators=[cagnottesolidaire.models.validate_positive], verbose_name='Nombre maximal de bénéficiaires')),
+                ('image', models.ImageField(blank=True, upload_to=cagnottesolidaire.models.upload_to_prop, verbose_name='Image')),
+                ('projet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cagnottesolidaire.Projet')),
                 ('responsable', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -74,6 +75,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='offre',
             name='proposition',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projets.Proposition'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cagnottesolidaire.Proposition'),
         ),
     ]

@@ -4,13 +4,9 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
--e git+git://github.com/Nim65s/django-YummyEmailOrUsernameInsensitiveAuth.git#egg=django-yeouia
 django-autoslug==1.9.3
-django-bootstrap3==8.2.3
-django-registration-redux==1.6
-django==1.11.3
+django-bootstrap3==9.0.0
+django==1.11.5
 olefile==0.44             # via pillow
 pillow==4.2.1
-python-memcached==1.58
 pytz==2017.2              # via django
-six==1.10.0               # via python-memcached

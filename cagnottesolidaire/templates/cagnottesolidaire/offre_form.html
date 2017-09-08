@@ -1,4 +1,4 @@
-{% extends "projets/proposition_detail.html" %}
+{% extends "cagnottesolidaire/proposition_detail.html" %}
 {% load bootstrap3 %}
 
 {% block proposition_content %}
@@ -17,7 +17,7 @@
   {% bootstrap_form form layout="horizontal" %}
   {% buttons layout="horizontal" %}
   <button type="submit" class="btn btn-success">Oui, je suis sûr !</button>
-  <a href="{% url 'projets:proposition' p_slug=projet.slug slug=proposition.slug %}"
+  <a href="{% url 'cagnottesolidaire:proposition' p_slug=projet.slug slug=proposition.slug %}"
     type="button" class="btn btn-danger">Non</a>
   {% endbuttons %}
 </form>

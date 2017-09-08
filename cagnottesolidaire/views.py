@@ -71,7 +71,7 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         messages.info(self.request, f'Dès qu’elle sera validée par {proposition.responsable_s}, vous recevrez un mail')
         if not settings.DEBUG:
             try:
-                mail = get_template('projets/mails/offre_create.txt').render({'offre': form.instance})
+                mail = get_template('cagnottesolidaire/mails/offre_create.txt').render({'offre': form.instance})
                 proposition.responsable.email_user('Nouvelle offre sur votre proposition !', mail)
             except Exception as e:  # pragma: no cover
                 mail_admins('mail d’offre pas envoyé', f'{form.instance.pk} / {proposition.responsable}:\n{e!r}')
@@ -119,7 +119,7 @@ def offre_ok(request, pk):
     offre.save()
     messages.success(request, f'Vous avez accepté l’offre de {offre.beneficiaire_s}, un mail lui a été envoyé')
     try:
-        mail = get_template('projets/mails/offre_ok.txt').render({'offre': offre})
+        mail = get_template('cagnottesolidaire/mails/offre_ok.txt').render({'offre': offre})
         offre.beneficiaire.email_user('Votre offre a été acceptée !', mail)
     except Exception as e:  # pragma: no cover
         mail_admins('mail d’offre OK pas envoyé', f'{offre.pk} / {offre.beneficiaire_s}:\n{e!r}')
@@ -135,7 +135,7 @@ def offre_ko(request, pk):
     offre.save()
     messages.warning(request, f'Vous avez refusé l’offre de {offre.beneficiaire_s}, un mail lui a été envoyé')
     try:
-        mail = get_template('projets/mails/offre_ko.txt').render({'offre': offre})
+        mail = get_template('cagnottesolidaire/mails/offre_ko.txt').render({'offre': offre})
         offre.beneficiaire.email_user('Votre offre a été refusée', mail)
     except Exception as e:  # pragma: no cover
         mail_admins('mail d’offre KO pas envoyé', f'{offre.pk} / {offre.beneficiaire_s}:\n{e!r}')

@@ -3,10 +3,6 @@ language: python
 python:
   - 3.6
 install:
-  - sudo mkdir -p /etc/django/cagnottesolidaire
-  - sudo chmod -R 777 /etc/django
-  - echo pipo > /etc/django/cagnottesolidaire/secret_key.txt
-  - echo pipo > /etc/django/cagnottesolidaire/email_password
   - pip install -r requirements.txt flake8 python-coveralls
 script:
   - ./manage.py migrate
