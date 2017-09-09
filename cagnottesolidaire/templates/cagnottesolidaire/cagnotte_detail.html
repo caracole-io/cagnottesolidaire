@@ -6,21 +6,21 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <h1>Projet: {{ projet.link }}</h1>
+      <h1>Cagnotte: {{ cagnotte.link }}</h1>
       <div class="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ projet.somme }}" aria-valuemin="0"
-             aria-valuemax="{{ projet.finances}}" style="width: {{ projet.progress }}%; min-width: 3em;">
-          {{ projet.somme }} €
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ cagnotte.somme }}" aria-valuemin="0"
+             aria-valuemax="{{ cagnotte.finances}}" style="width: {{ cagnotte.progress }}%; min-width: 3em;">
+          {{ cagnotte.somme }} €
         </div>
       </div>
       <dl class="dl-horizontal">
-        <dt>Besoins</dt>    <dd>{{ projet.finances|intcomma }} €</dd>
-        <dt>Fin Dépôt</dt>   <dd>{{ projet.fin_depot|naturalday }}</dd>
-        <dt>Fin Achat</dt>   <dd>{{ projet.fin_achat|naturalday }}</dd>
-        <dt>Responsable</dt> <dd>{{ projet.responsable_s }}</dd>
+        <dt>Besoins</dt>    <dd>{{ cagnotte.finances|intcomma }} €</dd>
+        <dt>Fin Dépôt</dt>   <dd>{{ cagnotte.fin_depot|naturalday }}</dd>
+        <dt>Fin Achat</dt>   <dd>{{ cagnotte.fin_achat|naturalday }}</dd>
+        <dt>Responsable</dt> <dd>{{ cagnotte.responsable_s }}</dd>
       </dl>
-      <p>{{ projet.objectif|linebreaks }}</p>
-      {% block projet_column %}
+      <p>{{ cagnotte.objectif|linebreaks }}</p>
+      {% block cagnotte_column %}
       {% endblock %}
     </div>
 
@@ -31,11 +31,11 @@
       </a>
       {% endif %}
 
-      {% block projet_content %}
+      {% block cagnotte_content %}
       <div class="row">
         <h1>Propositions</h1>
 
-        {% for proposition in projet.proposition_set.all %}
+        {% for proposition in cagnotte.proposition_set.all %}
         <div class="col-md-4">
           <div class="projp">
             <a href="{{ proposition.absolute_url }}">
@@ -54,17 +54,17 @@
         {% if forloop.counter|divisibleby:"3" %}</div><div class="row">{% endif %}
         {% endfor %}
 
-        {% if today <= projet.fin_depot %}
-        {% if projet.proposition_set.count|divisibleby:"3" %}</div><div class="row">{% endif %}
+        {% if today <= cagnotte.fin_depot %}
+        {% if cagnotte.proposition_set.count|divisibleby:"3" %}</div><div class="row">{% endif %}
         <div class="col-md-4">
           <div class="projp projp-new">
-            <a href="{% url 'cagnottesolidaire:proposition_create' slug=projet.slug %}">
-            <img alt="nouveau projet" src="{% static 'img/new.png' %}" />
+            <a href="{% url 'cagnottesolidaire:proposition_create' slug=cagnotte.slug %}">
+            <img alt="nouvelle cagnotte" src="{% static 'img/new.png' %}" />
             <h2>Nouvelle proposition</h2>
             </a>
             <hr>
             <p class="obj">Vous aussi, participez à cette cagnotte solidaire en proposant un bien ou un service !</p>
-            <p class="text-center"><a type="button" class="btn btn-success" href="{% url 'cagnottesolidaire:proposition_create' slug=projet.slug %}">Ajouter une proposition »</a></p>
+            <p class="text-center"><a type="button" class="btn btn-success" href="{% url 'cagnottesolidaire:proposition_create' slug=cagnotte.slug %}">Ajouter une proposition »</a></p>
           </div>
         </div>
 
@@ -72,15 +72,15 @@
 
       </div>
 
-      {% if request.user.is_authenticated %}{% if request.user.is_staff or projet.responsable == request.user %}
-      <h2>Offres validées sur ce projet</h2>
+      {% if request.user.is_authenticated %}{% if request.user.is_staff or cagnotte.responsable == request.user %}
+      <h2>Offres validées sur cette cagnotte</h2>
 
       <table class="table table-stripped">
         <tr>
           <th>Numéro</th><th class="text-right">Prix</th><th>Paiement reçu</th>
           <th>Personne</th><th>Email</th><th>Remarques</th>
         </tr>
-        {% for offre in projet.offres %}
+        {% for offre in cagnotte.offres %}
         <tr>
           <td>{{ offre.pk }}</td>
           <td class="text-right">{{ offre.prix }} €</td>
@@ -101,9 +101,9 @@
         <tr><td colspan="5">Il n’y a pas encore d’offres</td></tr>
         {% endfor %}
       </table>
-      <p>Encaissé pour le projet: {{ projet.somme_encaissee }} € sur {{ projet.somme }} € promis</p>
+      <p>Encaissé pour la cagnotte: {{ cagnotte.somme_encaissee }} € sur {{ cagnotte.somme }} € promis</p>
 
-      {% for offre in projet.offres %}{% if offre.remarques %}
+      {% for offre in cagnotte.offres %}{% if offre.remarques %}
       <div class="modal fade" id="rmqs-{{ offre.pk }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

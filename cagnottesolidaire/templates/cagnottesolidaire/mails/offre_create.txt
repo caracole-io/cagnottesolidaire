@@ -1,7 +1,7 @@
 Bonjour {{ offre.responsable_s }},
 
 {{ offre.beneficiaire_s }} vient de faire une offre sur votre proposition
-{{ offre.proposition }} du projet {{ offre.proposition.projet }} !
+{{ offre.proposition }} de la cagnotte {{ offre.proposition.cagnotte }} !
 
 {% if offre.remarques %}
 Remarques à propos de cette offre:
@@ -9,7 +9,7 @@ Remarques à propos de cette offre:
 {% endif %}
 
 Vous pouvez aller la valider sur:
-https://cagnottesolidaire.totheweb.fr{% url 'cagnottesolidaire:proposition' p_slug=offre.proposition.projet.slug slug=offre.proposition.slug %}
+https://cagnottesolidaire.totheweb.fr{% url 'cagnottesolidaire:proposition' p_slug=offre.proposition.cagnotte.slug slug=offre.proposition.slug %}
 
 Bonne journée !
 

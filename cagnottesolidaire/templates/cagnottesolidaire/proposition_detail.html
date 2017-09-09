@@ -1,10 +1,10 @@
-{% extends "cagnottesolidaire/projet_detail.html" %}
+{% extends "cagnottesolidaire/cagnotte_detail.html" %}
 
-{% block projet_column %}
+{% block cagnotte_column %}
 
-{% if projet.image %}
-<a href="{{ projet.absolute_url }}">
-  <img alt="image pour {{ projet }}" src="{{ projet.image.url }}" class="projp-det-im" />
+{% if cagnotte.image %}
+<a href="{{ cagnotte.absolute_url }}">
+  <img alt="image pour {{ cagnotte }}" src="{{ cagnotte.image.url }}" class="projp-det-im" />
 </a>
 <hr>
 {% endif %}
@@ -20,14 +20,14 @@
 
 {% endblock %}
 
-{% block projet_content %}
+{% block cagnotte_content %}
 
 {% block proposition_content %}
 
 <hr>
 <p class="text-center">
 {% if proposition.offrable %}
-<a href="{% url 'cagnottesolidaire:offre_create' p_slug=projet.slug slug=proposition.slug %}"
+<a href="{% url 'cagnottesolidaire:offre_create' p_slug=cagnotte.slug slug=proposition.slug %}"
    type="button" class="btn btn-success btn-large">Faire une offre !</a>
 {% else %}
 Trop tard ! Il n’est plus possible de faire des offres sur cette proposition.
@@ -68,7 +68,7 @@ Trop tard ! Il n’est plus possible de faire des offres sur cette proposition.
   <tr><td colspan="5">Il n’y a pas encore d’offres</td></tr>
   {% endfor %}
 </table>
-<p>Récolté pour le projet «{{ projet.link }}»: {{ proposition.somme }} €</p>
+<p>Récolté pour la cagnotte «{{ cagnotte.link }}»: {{ proposition.somme }} €</p>
 
 {% for offre in proposition.offre_set.all %}{% if offre.remarques %}
 <div class="modal fade" id="rmqs-{{ offre.pk }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

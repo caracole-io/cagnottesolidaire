@@ -10,26 +10,26 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import get_template
 from django.views.generic import CreateView, DetailView, ListView
 
-from .forms import OffreForm, ProjetForm
-from .models import Offre, Projet, Proposition
+from .forms import OffreForm, CagnotteForm
+from .models import Offre, Cagnotte, Proposition
 
 
-class ProjetListView(ListView):
-    model = Projet
+class CagnotteListView(ListView):
+    model = Cagnotte
 
 
-class ProjetCreateView(LoginRequiredMixin, CreateView):
-    model = Projet
-    form_class = ProjetForm
+class CagnotteCreateView(LoginRequiredMixin, CreateView):
+    model = Cagnotte
+    form_class = CagnotteForm
 
     def form_valid(self, form):
         form.instance.responsable = self.request.user
-        messages.success(self.request, 'Votre projet a été correctement créé !')
+        messages.success(self.request, 'Votre cagnotte a été correctement créée !')
         return super().form_valid(form)
 
 
-class ProjetDetailView(DetailView):
-    model = Projet
+class CagnotteDetailView(DetailView):
+    model = Cagnotte
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(today=date.today(), **kwargs)
@@ -40,8 +40,8 @@ class PropositionCreateView(LoginRequiredMixin, CreateView):
     fields = ['nom', 'description', 'prix', 'beneficiaires', 'image']
 
     def form_valid(self, form):
-        projet = get_object_or_404(Projet, slug=self.kwargs.get('slug', None))
-        form.instance.projet = projet
+        cagnotte = get_object_or_404(Cagnotte, slug=self.kwargs.get('slug', None))
+        form.instance.cagnotte = cagnotte
         form.instance.responsable = self.request.user
         messages.success(self.request, 'Votre proposition a été correctement ajoutée !')
         return super().form_valid(form)
@@ -51,7 +51,7 @@ class PropositionDetailView(DetailView):
     model = Proposition
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(today=date.today(), projet=self.object.projet, **kwargs)
+        return super().get_context_data(today=date.today(), cagnotte=self.object.cagnotte, **kwargs)
 
 
 class OffreCreateView(LoginRequiredMixin, CreateView):
@@ -78,10 +78,10 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        projet = get_object_or_404(Projet, slug=self.kwargs.get('p_slug', None))
+        cagnotte = get_object_or_404(Cagnotte, slug=self.kwargs.get('p_slug', None))
         proposition = self.get_proposition()
         ct = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()
-        return super().get_context_data(projet=projet, proposition=proposition, count=ct, object=proposition, **kwargs)
+        return super().get_context_data(cagnotte=cagnotte, proposition=proposition, count=ct, object=proposition, **kwargs)
 
     def get_initial(self):
         prop = self.get_proposition()
@@ -145,9 +145,9 @@ def offre_ko(request, pk):
 @login_required
 def offre_paye(request, pk):
     offre = get_object_or_404(Offre, pk=pk)
-    if offre.proposition.projet.responsable != request.user or not offre.valide:
+    if offre.proposition.cagnotte.responsable != request.user or not offre.valide:
         raise PermissionDenied
     offre.paye = True
     offre.save()
     messages.success(request, f'L’offre {offre.pk} a bien été marquée comme payée !')
-    return redirect(offre.proposition.projet)
+    return redirect(offre.proposition.cagnotte)

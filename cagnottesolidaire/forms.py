@@ -1,11 +1,11 @@
 from django.forms import ModelForm
 
-from .models import Offre, Projet
+from .models import Offre, Cagnotte
 
 
-class ProjetForm(ModelForm):
+class CagnotteForm(ModelForm):
     class Meta:
-        model = Projet
+        model = Cagnotte
         fields = ['nom', 'objectif', 'finances', 'fin_depot', 'fin_achat', 'image']
 
     def clean(self):

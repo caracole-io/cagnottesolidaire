@@ -15,7 +15,7 @@ def upload_to_proj(instance, filename):
 
 def upload_to_prop(instance, filename):
     ext = filename.split('.')[-1]
-    return f'cagnottesolidaire/proj_{instance.projet.slug}_prop_{instance.slug}.' + ext  # pragma: no cover
+    return f'cagnottesolidaire/proj_{instance.cagnotte.slug}_prop_{instance.slug}.' + ext  # pragma: no cover
 
 
 def validate_positive(value):
@@ -53,7 +53,7 @@ class AbstractModel(models.Model):
         return mark_safe(f'<a href="{self.absolute_url}">{self}</a>')
 
 
-class Projet(AbstractModel):
+class Cagnotte(AbstractModel):
     responsable = models.ForeignKey(User)
     image = models.ImageField('Image', upload_to=upload_to_proj, blank=True)
     objectif = models.TextField('Description de l’objectif de la cagnotte')
@@ -64,10 +64,10 @@ class Projet(AbstractModel):
                                  help_text='format: 31/12/2017')
 
     def get_absolute_url(self):
-        return reverse('cagnottesolidaire:projet', kwargs={'slug': self.slug})
+        return reverse('cagnottesolidaire:cagnotte', kwargs={'slug': self.slug})
 
     def offres(self):
-        return Offre.objects.filter(proposition__projet=self, valide=True)
+        return Offre.objects.filter(proposition__cagnotte=self, valide=True)
 
     def somme(self):
         return query_sum(self.offres())
@@ -84,7 +84,7 @@ class Projet(AbstractModel):
 
 
 class Proposition(AbstractModel):
-    projet = models.ForeignKey(Projet)
+    cagnotte = models.ForeignKey(Cagnotte)
     responsable = models.ForeignKey(User)
     description = models.TextField()
     prix = models.DecimalField(max_digits=8, decimal_places=2, validators=[validate_positive])
@@ -93,16 +93,16 @@ class Proposition(AbstractModel):
     image = models.ImageField('Image', upload_to=upload_to_prop, blank=True)
 
     class Meta:
-        ordering = ('projet', 'prix')
+        ordering = ('cagnotte', 'prix')
 
     def get_absolute_url(self):
-        return reverse('cagnottesolidaire:proposition', kwargs={'slug': self.slug, 'p_slug': self.projet.slug})
+        return reverse('cagnottesolidaire:proposition', kwargs={'slug': self.slug, 'p_slug': self.cagnotte.slug})
 
     def offres(self):
         return [self.offre_set.filter(**f).count() for f in [{}, {'valide': True}, {'paye': True}]]
 
     def offrable(self):
-        if date.today() > self.projet.fin_achat:
+        if date.today() > self.cagnotte.fin_achat:
             return False
         return self.beneficiaires == 0 or self.offre_set.filter(valide=True).count() < self.beneficiaires
 
@@ -130,7 +130,7 @@ class Offre(models.Model):
         ordering = ('paye', 'valide', 'proposition')
 
     def __str__(self):
-        return f'offre de {self.beneficiaire} sur {self.proposition} (projet {self.proposition.projet})'
+        return f'offre de {self.beneficiaire} sur {self.proposition} (cagnotte {self.proposition.cagnotte})'
 
     def get_absolute_url(self):
         return self.proposition.absolute_url

@@ -1,7 +1,7 @@
 from django.contrib.admin import site
 
-from .models import Offre, Projet, Proposition
+from .models import Offre, Cagnotte, Proposition
 
-site.register(Projet)
+site.register(Cagnotte)
 site.register(Proposition)
 site.register(Offre)

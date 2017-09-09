@@ -6,13 +6,13 @@
 
 <table class="table table-stripped">
   <tr>
-    <th>Projet</th><th>Proposition</th><th class="text-right">Prix</th><th class="text-right">Bénéficiaires max.</th>
+    <th>Cagnotte</th><th>Proposition</th><th class="text-right">Prix</th><th class="text-right">Bénéficiaires max.</th>
     <th class="text-right">Offres</th><th class="text-right">dont validées</th><th class="text-right">dont payées</th>
     <th>Récolté</th>
   </tr>
   {% for proposition in proposition_list %}
   <tr>
-    <td>{{ proposition.projet.link }}</td><td>{{ proposition.link }}</td>
+    <td>{{ proposition.cagnotte.link }}</td><td>{{ proposition.link }}</td>
     <td class="text-right">{{ proposition.prix }} €</td><td class="text-right">{{ proposition.beneficiaires }}</td>
     {% for offre in proposition.offres %}
     <td class="text-right">{{ offre }}</td>

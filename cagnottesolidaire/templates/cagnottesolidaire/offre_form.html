@@ -3,7 +3,7 @@
 
 {% block proposition_content %}
 
-<h2>Faire une offre sur «{{ proposition.link }}» (pour {{ projet.link }})</h2>
+<h2>Faire une offre sur «{{ proposition.link }}» (pour {{ cagnotte.link }})</h2>
 
 {% if count > 0 %}
 <div class="alert alert-warning" role="alert">
@@ -17,7 +17,7 @@
   {% bootstrap_form form layout="horizontal" %}
   {% buttons layout="horizontal" %}
   <button type="submit" class="btn btn-success">Oui, je suis sûr !</button>
-  <a href="{% url 'cagnottesolidaire:proposition' p_slug=projet.slug slug=proposition.slug %}"
+  <a href="{% url 'cagnottesolidaire:proposition' p_slug=cagnotte.slug slug=proposition.slug %}"
     type="button" class="btn btn-danger">Non</a>
   {% endbuttons %}
 </form>

@@ -1,7 +1,7 @@
 Bonjour {{ offre.beneficiaire_s }},
 
 {{ offre.responsable_s }} vient de refuser votre offre sur la proposition
-«{{ offre.proposition }}» pour financer le projet «{{ offre.proposition.projet }}».
+«{{ offre.proposition }}» pour financer la cagnotte «{{ offre.proposition.cagnotte }}».
 
 Merci quand même pour l’offre !
 
