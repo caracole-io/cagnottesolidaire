@@ -27,7 +27,7 @@ class TestCagnotte(TestCase):
         self.client.login(username='a', password='a')
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte_create')).status_code, 200)
         cagnotte_data = {'nom': 'first', 'objectif': 'nothing', 'finances': 42,
-                       'fin_depot': '31/12/2016', 'fin_achat': '30/12/2017'}
+                         'fin_depot': '31/12/2016', 'fin_achat': '30/12/2017'}
         # fin_depot < today
         self.assertLess(strpdate(cagnotte_data['fin_depot']), date.today())
         r = self.client.post(reverse('cagnottesolidaire:cagnotte_create'), cagnotte_data)
@@ -56,7 +56,7 @@ class TestCagnotte(TestCase):
         self.assertEqual(Proposition.objects.count(), 0)
         self.assertEqual(Cagnotte.objects.count(), 0)
         proj = Cagnotte.objects.create(nom='second', responsable=guy, objectif='nothing', finances=43,
-                                     fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
         projd = {'slug': proj.slug}
         propd = {'p_slug': proj.slug, 'slug': 'propo'}
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition', kwargs=propd)).status_code, 404)
@@ -82,7 +82,7 @@ class TestCagnotte(TestCase):
     def test_offre(self):
         guy = User.objects.first()
         proj = Cagnotte.objects.create(nom='third', responsable=guy, objectif='nothing', finances=43,
-                                     fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
         prop = Proposition.objects.create(nom='Pipo', description='nope', prix=20, cagnotte=proj, responsable=guy)
         propd = {'p_slug': proj.slug, 'slug': prop.slug}
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition', kwargs=propd)).status_code, 200)
@@ -119,7 +119,7 @@ class TestCagnotte(TestCase):
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition_list')).status_code, 200)
         guy = User.objects.first()
         proj = Cagnotte.objects.create(nom='quatre', responsable=guy, objectif='nothing', finances=43,
-                                     fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
         prop = Proposition.objects.create(nom='cinq', description='nope', prix=20, cagnotte=proj, responsable=guy)
         offr = Offre.objects.create(proposition=prop, beneficiaire=guy, prix=3)
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:offre_list')).status_code, 200)
@@ -129,7 +129,7 @@ class TestCagnotte(TestCase):
     def test_fbv(self):
         a, b, c, s = User.objects.all()
         proj = Cagnotte.objects.create(nom='fourth', responsable=a, objectif='nothing', finances=43,
-                                     fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
         prop = Proposition.objects.create(nom='Pipo', description='nope', prix=20, cagnotte=proj, responsable=b)
         offr = Offre.objects.create(proposition=prop, prix=22, beneficiaire=c)
         ok, ko, paye = [reverse(f'cagnottesolidaire:offre_{view}', kwargs={'pk': offr.pk})
@@ -164,7 +164,7 @@ class TestCagnotte(TestCase):
     def test_offrable(self):
         a, b, c, s = User.objects.all()
         proj = Cagnotte.objects.create(nom='fifth', responsable=a, objectif='nothing', finances=43,
-                                     fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
         prop = Proposition.objects.create(nom='Pipo', description='nope', prix=20, cagnotte=proj, responsable=b,
                                           beneficiaires=2)
         self.client.login(username='c', password='c')
@@ -179,7 +179,7 @@ class TestCagnotte(TestCase):
 
         # old
         proj = Cagnotte.objects.create(nom='sixth', responsable=a, objectif='nothing', finances=43,
-                                     fin_depot=date(2014, 12, 31), fin_achat=date(2015, 12, 31))
+                                       fin_depot=date(2014, 12, 31), fin_achat=date(2015, 12, 31))
         prop = Proposition.objects.create(nom='popo', description='nope', prix=20, cagnotte=proj, responsable=b,
                                           beneficiaires=2)
         self.client.login(username='c', password='c')
