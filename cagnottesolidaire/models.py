@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 from autoslug.fields import AutoSlugField
+from ndh.models import Links
 
 
 def upload_to_proj(instance, filename):
@@ -52,7 +53,7 @@ class AbstractModel(models.Model):
         return mark_safe(f'<a href="{self.absolute_url}">{self}</a>')
 
 
-class Cagnotte(AbstractModel):
+class Cagnotte(Links, AbstractModel):
     responsable = models.ForeignKey(User)
     image = models.ImageField('Image', upload_to=upload_to_proj, blank=True)
     objectif = models.TextField('Description de l’objectif de la cagnotte')
@@ -82,7 +83,7 @@ class Cagnotte(AbstractModel):
         return self.responsable.get_short_name() or self.responsable.get_username()
 
 
-class Proposition(AbstractModel):
+class Proposition(Links, AbstractModel):
     cagnotte = models.ForeignKey(Cagnotte)
     responsable = models.ForeignKey(User)
     description = models.TextField()
@@ -117,7 +118,7 @@ class Proposition(AbstractModel):
         return self.responsable.get_short_name() or self.responsable.get_username()
 
 
-class Offre(models.Model):
+class Offre(Links, models.Model):
     proposition = models.ForeignKey(Proposition)
     beneficiaire = models.ForeignKey(User)
     valide = models.NullBooleanField('validé', default=None)
