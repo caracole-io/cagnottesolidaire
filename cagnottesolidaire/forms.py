@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from .models import Offre, Cagnotte
+from .models import Cagnotte, Offre
 
 
 class CagnotteForm(ModelForm):

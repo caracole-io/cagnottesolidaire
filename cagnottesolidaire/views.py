@@ -2,16 +2,17 @@ from datetime import date
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import mail_admins
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import get_template
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView
 
-from .forms import OffreForm, CagnotteForm
-from .models import Offre, Cagnotte, Proposition
+from .forms import CagnotteForm, OffreForm
+from .models import Cagnotte, Demande, Offre, Proposition
+from .utils import IsUserOrAboveMixin
 
 
 class CagnotteListView(ListView):
@@ -99,16 +100,32 @@ class PropositionListView(LoginRequiredMixin, ListView):
         return Proposition.objects.filter(responsable=self.request.user)
 
 
-class OffreDetailView(UserPassesTestMixin, DetailView):
+class OffreDetailView(IsUserOrAboveMixin, DetailView):
     model = Offre
 
-    def test_func(self):
-        if not self.request.user.is_authenticated:
-            return False
-        if self.request.user.is_staff:
-            return True
-        self.object = self.get_object()
-        return self.object.proposition.responsable == self.request.user
+    def get_user(self):
+        return self.get_object().proposition.responsable
+
+
+class DemandeCreateView(LoginRequiredMixin, CreateView):
+    model = Demande
+    fields = ('description', )
+
+    def form_valid(self, form):
+        form.instance.demandeur = self.request.user
+        form.instance.cagnotte = get_object_or_404(Cagnotte, slug=self.kwargs['slug'])
+        messages.success(self.request, 'Votre demande a été correctement enregistrée !')
+        return super().form_valid(form)
+
+
+class DemandeDeleteView(IsUserOrAboveMixin, DeleteView):
+    model = Demande
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
+
+    def get_user(self):
+        return self.get_object().demandeur
 
 
 @login_required

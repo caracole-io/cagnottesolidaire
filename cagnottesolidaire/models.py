@@ -142,3 +142,15 @@ class Offre(models.Model):
     @property
     def beneficiaire_s(self):
         return self.beneficiaire.get_short_name() or self.beneficiaire.get_username()
+
+
+class Demande(models.Model):
+    cagnotte = models.ForeignKey(Cagnotte)
+    demandeur = models.ForeignKey(User)
+    description = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.description
+
+    def get_absolute_url(self):
+        return self.cagnotte.get_absolute_url()

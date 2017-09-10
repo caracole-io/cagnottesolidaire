@@ -21,6 +21,18 @@
       </dl>
       <p>{{ cagnotte.objectif|linebreaks }}</p>
       {% block cagnotte_column %}
+      <h3>Demandes</h3>
+      <ul>
+      {% for demande in cagnotte.demande_set.all %}
+      <li>
+      {{ demande }}
+      {% if demande.demandeur == request.user or request.user.is_staff %}
+      <a href="{% url 'cagnottesolidaire:demande_delete' pk=demande.pk %}">(Supprimer)</a>
+      {% endif %}
+      </li>
+      {% endfor %}
+      <li><a href="{% url 'cagnottesolidaire:demande_create' slug=cagnotte.slug %}">Proposez la votre !</a></li>
+      </ul>
       {% endblock %}
     </div>
 

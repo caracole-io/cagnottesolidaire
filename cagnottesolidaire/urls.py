@@ -28,4 +28,8 @@ urlpatterns = [
         name='offre_paye'),
     url(r'^propositions$', views.PropositionListView.as_view(),
         name='proposition_list'),
+    url(r'^demande/(?P<slug>[^/]+)$', views.DemandeCreateView.as_view(),
+        name='demande_create'),
+    url(r'^demande/del/(?P<pk>\d+)$', views.DemandeDeleteView.as_view(),
+        name='demande_delete'),
 ]

@@ -5,7 +5,7 @@ from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from .models import Offre, Cagnotte, Proposition
+from .models import Cagnotte, Offre, Proposition
 
 
 def strpdate(s):
