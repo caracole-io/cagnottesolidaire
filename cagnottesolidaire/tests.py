@@ -5,7 +5,7 @@ from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from .models import Cagnotte, Offre, Proposition
+from .models import Cagnotte, Demande, Offre, Proposition
 
 
 def strpdate(s):
@@ -187,3 +187,24 @@ class TestCagnotte(TestCase):
         url = reverse('cagnottesolidaire:offre_create', kwargs={'p_slug': proj.slug, 'slug': prop.slug})
         self.assertEqual(self.client.post(url, {'prix': '21'}).status_code, 403)
         self.assertEqual(Offre.objects.count(), 3)
+
+    def test_demande(self):
+        guy = User.objects.first()
+        self.assertEqual(Demande.objects.count(), 0)
+        proj = Cagnotte.objects.create(nom='last', responsable=guy, objectif='nothing', finances=43,
+                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+        data = {'slug': proj.slug}
+        # Not logged in
+        self.assertEqual(self.client.get(reverse('cagnottesolidaire:demande_create', kwargs=data)).status_code, 302)
+        self.client.login(username='c', password='c')
+        self.assertEqual(self.client.get(reverse('cagnottesolidaire:demande_create', kwargs=data)).status_code, 200)
+        demande_data = {'description': 'cours de massage'}
+        r = self.client.post(reverse('cagnottesolidaire:demande_create', kwargs=data), demande_data)
+        self.assertEqual(Demande.objects.count(), 1)
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte', kwargs=data)).status_code, 200)
+
+        delete_url = reverse('cagnottesolidaire:demande_delete', kwargs={'pk': Demande.objects.first().pk})
+        self.assertEqual(self.client.get(delete_url).status_code, 200)
+        self.client.post(delete_url)
+        self.assertEqual(Demande.objects.count(), 0)

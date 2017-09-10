@@ -10,12 +10,11 @@ from autoslug.fields import AutoSlugField
 
 
 def upload_to_proj(instance, filename):
-    return f'cagnottesolidaire/proj_{instance.slug}.' + filename.split('.')[-1]  # pragma: no cover
+    return f'cagnottesolidaire/proj_{instance.slug}.' + filename.split('.')[-1]
 
 
 def upload_to_prop(instance, filename):
-    ext = filename.split('.')[-1]
-    return f'cagnottesolidaire/proj_{instance.cagnotte.slug}_prop_{instance.slug}.' + ext  # pragma: no cover
+    return f'cagnottesolidaire/proj_{instance.cagnotte.slug}_prop_{instance.slug}.' + filename.split('.')[-1]
 
 
 def validate_positive(value):

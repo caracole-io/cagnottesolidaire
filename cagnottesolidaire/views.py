@@ -74,7 +74,7 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
             try:
                 mail = get_template('cagnottesolidaire/mails/offre_create.txt').render({'offre': form.instance})
                 proposition.responsable.email_user('Nouvelle offre sur votre proposition !', mail)
-            except Exception as e:  # pragma: no cover
+            except Exception as e:
                 mail_admins('mail d’offre pas envoyé', f'{form.instance.pk} / {proposition.responsable}:\n{e!r}')
         return super().form_valid(form)
 
@@ -139,7 +139,7 @@ def offre_ok(request, pk):
     try:
         mail = get_template('cagnottesolidaire/mails/offre_ok.txt').render({'offre': offre})
         offre.beneficiaire.email_user('Votre offre a été acceptée !', mail)
-    except Exception as e:  # pragma: no cover
+    except Exception as e:
         mail_admins('mail d’offre OK pas envoyé', f'{offre.pk} / {offre.beneficiaire_s}:\n{e!r}')
     return redirect(offre)
 
@@ -155,7 +155,7 @@ def offre_ko(request, pk):
     try:
         mail = get_template('cagnottesolidaire/mails/offre_ko.txt').render({'offre': offre})
         offre.beneficiaire.email_user('Votre offre a été refusée', mail)
-    except Exception as e:  # pragma: no cover
+    except Exception as e:
         mail_admins('mail d’offre KO pas envoyé', f'{offre.pk} / {offre.beneficiaire_s}:\n{e!r}')
     return redirect(offre)
 
