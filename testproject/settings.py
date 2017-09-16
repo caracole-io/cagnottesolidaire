@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'cagnottesolidaire',
     'testproject',
     'bootstrap3',
+    'ndh',
 ]
 
 MIDDLEWARE = [

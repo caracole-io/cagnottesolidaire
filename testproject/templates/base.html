@@ -1,4 +1,4 @@
-{% load static bootstrap3 %}<!DOCTYPE html>
+{% load static bootstrap3 ndh %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -44,11 +44,7 @@
     </div>
     <hr>
     <p class="text-center">Besoin d’aide ? Contactez
-    {% if request.user.is_authenticated %}
-    <a href="mailto:cagnottesolidaire@framalistes.org">cagnottesolidaire@framalistes.org</a>
-    {% else %}
-    «cagnottesolidaire @ framalistes . org»
-    {% endif %}
+    {{ "mailto:cagnottesolidaire@framalistes.org"|email:request }}
     </p>
 
     <script src="{% bootstrap_jquery_url %}"></script>
