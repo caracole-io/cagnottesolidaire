@@ -38,7 +38,7 @@ class CagnotteDetailView(DetailView):
 
 class PropositionCreateView(LoginRequiredMixin, CreateView):
     model = Proposition
-    fields = ['nom', 'description', 'prix', 'beneficiaires', 'image']
+    fields = ['name', 'description', 'prix', 'beneficiaires', 'image']
 
     def form_valid(self, form):
         cagnotte = get_object_or_404(Cagnotte, slug=self.kwargs.get('slug', None))

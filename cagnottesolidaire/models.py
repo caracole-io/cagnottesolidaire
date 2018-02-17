@@ -1,13 +1,13 @@
 from datetime import date
 
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.validators import ValidationError
 from django.db import models
 from django.utils.safestring import mark_safe
 
-from autoslug.fields import AutoSlugField
-from ndh.models import Links
+from ndh.models import Links, TimeStampedModel, NamedModel
+from ndh.utils import query_sum
 
 
 def upload_to_proj(instance, filename):
@@ -28,33 +28,8 @@ def validate_future(value):
         raise ValidationError(f'{value} est déjà passé')
 
 
-def query_sum(queryset, field='prix'):
-    return queryset.aggregate(s=models.functions.Coalesce(models.Sum(field), 0))['s']
-
-
-class AbstractModel(models.Model):
-    nom = models.CharField(max_length=250, unique=True)
-    slug = AutoSlugField(populate_from='nom', unique=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-        ordering = ['created']
-
-    def __str__(self):
-        return self.nom
-
-    @property
-    def absolute_url(self):
-        return self.get_absolute_url()
-
-    def link(self):
-        return mark_safe(f'<a href="{self.absolute_url}">{self}</a>')
-
-
-class Cagnotte(Links, AbstractModel):
-    responsable = models.ForeignKey(User)
+class Cagnotte(Links, TimeStampedModel, NamedModel):
+    responsable = models.ForeignKey(User, on_delete=models.PROTECT)
     image = models.ImageField('Image', upload_to=upload_to_proj, blank=True)
     objectif = models.TextField('Description de l’objectif de la cagnotte')
     finances = models.DecimalField('But à atteindre', max_digits=8, decimal_places=2, validators=[validate_positive])
@@ -63,17 +38,14 @@ class Cagnotte(Links, AbstractModel):
     fin_achat = models.DateField('Date de fin des achats', validators=[validate_future],
                                  help_text='format: 31/12/2017')
 
-    def get_absolute_url(self):
-        return reverse('cagnottesolidaire:cagnotte', kwargs={'slug': self.slug})
-
     def offres(self):
         return Offre.objects.filter(proposition__cagnotte=self, valide=True)
 
     def somme(self):
-        return query_sum(self.offres())
+        return query_sum(self.offres(), 'prix')
 
     def somme_encaissee(self):
-        return query_sum(self.offres().filter(paye=True))
+        return query_sum(self.offres().filter(paye=True), 'prix')
 
     def progress(self):
         return int(round(100 * self.somme() / self.finances))
@@ -83,9 +55,9 @@ class Cagnotte(Links, AbstractModel):
         return self.responsable.get_short_name() or self.responsable.get_username()
 
 
-class Proposition(Links, AbstractModel):
-    cagnotte = models.ForeignKey(Cagnotte)
-    responsable = models.ForeignKey(User)
+class Proposition(Links, TimeStampedModel, NamedModel):
+    cagnotte = models.ForeignKey(Cagnotte, on_delete=models.PROTECT)
+    responsable = models.ForeignKey(User, on_delete=models.PROTECT)
     description = models.TextField()
     prix = models.DecimalField(max_digits=8, decimal_places=2, validators=[validate_positive])
     beneficiaires = models.IntegerField('Nombre maximal de bénéficiaires', default=1, validators=[validate_positive],
@@ -107,7 +79,7 @@ class Proposition(Links, AbstractModel):
         return self.beneficiaires == 0 or self.offre_set.filter(valide=True).count() < self.beneficiaires
 
     def somme(self):
-        return query_sum(self.offre_set.filter(valide=True))
+        return query_sum(self.offre_set.filter(valide=True), 'prix')
 
     @property
     def ben_s(self):
@@ -119,8 +91,8 @@ class Proposition(Links, AbstractModel):
 
 
 class Offre(Links, models.Model):
-    proposition = models.ForeignKey(Proposition)
-    beneficiaire = models.ForeignKey(User)
+    proposition = models.ForeignKey(Proposition, on_delete=models.PROTECT)
+    beneficiaire = models.ForeignKey(User, on_delete=models.PROTECT)
     valide = models.NullBooleanField('validé', default=None)
     paye = models.BooleanField('payé', default=False)
     remarques = models.TextField(blank=True)
@@ -133,7 +105,7 @@ class Offre(Links, models.Model):
         return f'offre de {self.beneficiaire} sur {self.proposition} (cagnotte {self.proposition.cagnotte})'
 
     def get_absolute_url(self):
-        return self.proposition.absolute_url
+        return self.proposition.get_absolute_url()
 
     @property
     def responsable_s(self):
@@ -145,8 +117,8 @@ class Offre(Links, models.Model):
 
 
 class Demande(models.Model):
-    cagnotte = models.ForeignKey(Cagnotte)
-    demandeur = models.ForeignKey(User)
+    cagnotte = models.ForeignKey(Cagnotte, on_delete=models.PROTECT)
+    demandeur = models.ForeignKey(User, on_delete=models.PROTECT)
     description = models.CharField(max_length=250)
 
     def __str__(self):

@@ -12,7 +12,7 @@
     'cagnottesolidaire',
     'django.contrib.humanize',
     'django.contrib.sites',
-    'bootstrap3',  # only if you want to use the provided templates
+    'bootstrap4',  # only if you want to use the provided templates
 ```
 - add `SITE_ID = 1` to `settings.py`
 - add `    url(r'^cagnottesolidaire/', include('cagnottesolidaire.urls')),` to your `urlpatterns` in `urls.py`

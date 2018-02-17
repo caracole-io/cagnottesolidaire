@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'cagnottesolidaire',
     'testproject',
-    'bootstrap3',
+    'bootstrap4',
     'ndh',
 ]
 

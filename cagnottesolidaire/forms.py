@@ -6,7 +6,7 @@ from .models import Cagnotte, Offre
 class CagnotteForm(ModelForm):
     class Meta:
         model = Cagnotte
-        fields = ['nom', 'objectif', 'finances', 'fin_depot', 'fin_achat', 'image']
+        fields = ['name', 'objectif', 'finances', 'fin_depot', 'fin_achat', 'image']
 
     def clean(self):
         cleaned_data = super().clean()
