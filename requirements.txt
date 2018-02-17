@@ -4,10 +4,9 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
--e git+git://github.com/Nim65s/ndh.git#egg=ndh
-django-autoslug==1.9.3
-django-bootstrap3==9.0.0
-django==1.11.5
-olefile==0.44             # via pillow
-pillow==4.2.1
-pytz==2017.2              # via django
+django-autoslug-iplweb==1.9.4.dev0  # via ndh
+django-bootstrap4==0.0.6  # via ndh
+django==2.0.2             # via ndh
+ndh==3.0.2
+pillow==5.0.0
+pytz==2018.3              # via django

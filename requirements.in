@@ -1,5 +1,2 @@
-django
-django-autoslug
-django-bootstrap3
+ndh
 Pillow
--e git://github.com/Nim65s/ndh.git#egg=ndh
