@@ -33,10 +33,8 @@ class Cagnotte(Links, TimeStampedModel, NamedModel):
     image = models.ImageField('Image', upload_to=upload_to_proj, blank=True)
     objectif = models.TextField('Description de l’objectif de la cagnotte')
     finances = models.DecimalField('But à atteindre', max_digits=8, decimal_places=2, validators=[validate_positive])
-    fin_depot = models.DateField('Date de fin du dépôt des propositions', validators=[validate_future],
-                                 help_text='format: 31/12/2017')
-    fin_achat = models.DateField('Date de fin des achats', validators=[validate_future],
-                                 help_text='format: 31/12/2017')
+    fin_depot = models.DateField('Date de fin du dépôt des propositions', validators=[validate_future])
+    fin_achat = models.DateField('Date de fin des achats', validators=[validate_future])
 
     def offres(self):
         return Offre.objects.filter(proposition__cagnotte=self, valide=True)
