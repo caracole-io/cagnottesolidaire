@@ -1,12 +1,11 @@
 from datetime import date
 
 from django.contrib.auth.models import User
-from django.urls import reverse
 from django.core.validators import ValidationError
 from django.db import models
-from django.utils.safestring import mark_safe
+from django.urls import reverse
 
-from ndh.models import Links, TimeStampedModel, NamedModel
+from ndh.models import Links, NamedModel, TimeStampedModel
 from ndh.utils import query_sum
 
 
