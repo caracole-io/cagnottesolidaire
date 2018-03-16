@@ -1,29 +1,17 @@
 # Cagnotte Solidaire
-[![Build Status](https://travis-ci.org/nim65s/cagnottesolidaire.svg?branch=master)](https://travis-ci.org/nim65s/cagnottesolidaire)
-[![Coverage Status](https://coveralls.io/repos/github/nim65s/cagnottesolidaire/badge.svg?branch=master)](https://coveralls.io/github/nim65s/cagnottesolidaire?branch=master)
-
-## Deploy
-
-- `pip install -e git://github.com/Nim65s/cagnottesolidaire.git#egg=cagnottesolidaire `
-
-- add those lines to your `INSTALLED_APPS` in `settings.py`:
-
-```
-    'cagnottesolidaire',
-    'django.contrib.humanize',
-    'django.contrib.sites',
-    'bootstrap4',  # only if you want to use the provided templates
-```
-- add `SITE_ID = 1` to `settings.py`
-- add `    url(r'^cagnottesolidaire/', include('cagnottesolidaire.urls')),` to your `urlpatterns` in `urls.py`
-
+[![Build Status](https://travis-ci.org/caracole-io/cagnottesolidaire.svg?branch=master)](https://travis-ci.org/caracole-io/cagnottesolidaire)
+[![Coverage Status](https://coveralls.io/repos/github/caracole-io/cagnottesolidaire/badge.svg?branch=master)](https://coveralls.io/github/caracole-io/cagnottesolidaire?branch=master)
 
 ## Dev
+
+Make sure `cagnottesolidaire.local` resolves to `localhost`, and:
+
 ```
-vf new cagnottesolidaire
-vf connect
-pip install -r requirements.txt
-./manage.py migrate
-./manage.py createsuperuser --email guilhem@saurel.me --username nim
-./manage.py runserver
+echo POSTGRES_PASSWORD=$(openssl rand -base64 32) >> .env
+echo SECRET_KEY=$(openssl rand -base64 32) >> .env
+echo DEBUG=True >> .env
+. .env
+docker-compose up -d --build
 ```
+
+You may then want to create an admin: `docker-compose exec app ./manage.py createsuperuser`
