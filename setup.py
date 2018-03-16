@@ -26,9 +26,9 @@ setup(
     license='BSD',
     description='A social crowdfunding app',
     long_description=README,
-    url='https://caracole.io/cagnottesolidaire/',
+    url='https://github.com/caracole-io/cagnottesolidaire/',
     author='Guilhem Saurel',
-    author_email='webmaster@saurel.me',
+    author_email='webmaster@caracole.io',
     python_requires='>=3.6',
     classifiers=[
         'Environment :: Web Environment',
