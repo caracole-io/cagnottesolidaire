@@ -21,4 +21,4 @@ CMD while ! nc -z postgres 5432; do sleep 1; done \
  && ./manage.py collectstatic --no-input \
  && gunicorn \
     --bind 0.0.0.0 \
-    caracole.wsgi
+    testproject.wsgi
