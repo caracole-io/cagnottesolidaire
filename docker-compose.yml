@@ -22,6 +22,8 @@ services:
       - "srv:/srv"
     env_file:
       - .env
+    environment:
+      - DB=postgres
     networks:
       - traefik
       - default
