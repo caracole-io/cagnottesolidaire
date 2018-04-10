@@ -4,7 +4,8 @@ PROJECT = 'cagnottesolidaire'
 PROJECT_VERBOSE = 'Cagnotte Solidaire'
 
 DOMAIN_NAME = os.environ.get('DOMAIN_NAME', 'local')
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST', f'{PROJECT}.{DOMAIN_NAME}')]
+HOSTNAME = os.environ.get('ALLOWED_HOST', f'{PROJECT}.{DOMAIN_NAME}')
+ALLOWED_HOSTS = [HOSTNAME]
 ALLOWED_HOSTS += [f'www.{host}' for host in ALLOWED_HOSTS]
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -15,6 +16,7 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 INSTALLED_APPS = [
     PROJECT,
+    'ndh',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -24,7 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.sites',
     'bootstrap4',
-    'ndh',
     'testproject',
 ]
 
@@ -93,18 +94,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'fr-FR'
-TIME_ZONE = 'Europe/Paris'
+LANGUAGE_CODE = os.environ.get('LANGUAGE_CODE', 'fr-FR')
+TIME_ZONE = os.environ.get('TIME_ZONE', 'Europe/Paris')
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-SITE_ID = 1
+SITE_ID = int(os.environ.get('SITE_ID', 1))
 
 MEDIA_ROOT = '/srv/media/'
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = '/srv/static/'
+LOGIN_REDIRECT_URL = '/'
 
 if os.environ.get('MEMCACHED', 'False').lower() == 'true':
     CACHES = {
