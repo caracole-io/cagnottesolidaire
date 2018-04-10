@@ -113,5 +113,3 @@ if os.environ.get('MEMCACHED', 'False').lower() == 'true':
             'LOCATION': 'memcached:11211',
         }
     }
-
-
