@@ -6,6 +6,6 @@
 #
 django-autoslug-iplweb==1.9.4.dev0  # via ndh
 django-bootstrap4==0.0.6  # via ndh
-django==2.0.3             # via ndh
-ndh==3.2.1
-pytz==2018.3              # via django
+django==2.0.4             # via ndh
+ndh==3.5.1
+pytz==2018.4              # via django
