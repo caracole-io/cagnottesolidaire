@@ -107,7 +107,7 @@ class TestCagnotte(TestCase):
         self.client.login(username='s', password='s')
         self.assertEqual(self.client.get(url).status_code, 200)
         self.client.login(username='b', password='b')
-        self.assertEqual(self.client.get(url).status_code, 302)
+        self.assertIn(self.client.get(url).status_code, [302, 403])
         self.client.logout()
         self.assertEqual(self.client.get(url).status_code, 302)
 

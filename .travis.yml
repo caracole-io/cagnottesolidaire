@@ -5,7 +5,8 @@ python:
 services:
   - postgresql
 install:
-  - pip install -r requirements.txt flake8 python-coveralls safety pillow
+  - pip install pipenv flake8 python-coveralls safety pillow
+  - pipenv install --deploy
 env:
   - SECRET_KEY='pipo' EMAIL_HOST_PASSWORD='pipo' POSTGRES_HOST='localhost' POSTGRES_PASSWORD='' RAVEN=True DSN=''
 script:
