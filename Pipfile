@@ -5,9 +5,9 @@ name = "pypi"
 
 [packages]
 ndh = "*"
+pillow = "==5.4.1"  # Pinned to alpine 3.9's version
 
 [dev-packages]
-pillow = "*"
 
 [requires]
 python_version = "3.7"
