@@ -13,7 +13,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-
 INSTALLED_APPS = [
     PROJECT,
     'ndh',
@@ -58,7 +57,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'testproject.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

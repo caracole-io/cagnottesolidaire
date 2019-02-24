@@ -27,12 +27,28 @@ class Migration(migrations.Migration):
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('name', models.CharField(max_length=200, unique=True)),
                 ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from='name', unique=True)),
-                ('image', models.ImageField(blank=True, upload_to=cagnottesolidaire.models.upload_to_proj, verbose_name='Image')),
+                ('image',
+                 models.ImageField(
+                     blank=True, upload_to=cagnottesolidaire.models.upload_to_proj, verbose_name='Image')),
                 ('objectif', models.TextField(verbose_name='Description de l’objectif de la cagnotte')),
-                ('finances', models.DecimalField(decimal_places=2, max_digits=8, validators=[cagnottesolidaire.models.validate_positive], verbose_name='But à atteindre')),
-                ('fin_depot', models.DateField(help_text='format: 31/12/2017', validators=[cagnottesolidaire.models.validate_future], verbose_name='Date de fin du dépôt des propositions')),
-                ('fin_achat', models.DateField(help_text='format: 31/12/2017', validators=[cagnottesolidaire.models.validate_future], verbose_name='Date de fin des achats')),
-                ('responsable', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
+                ('finances',
+                 models.DecimalField(
+                     decimal_places=2,
+                     max_digits=8,
+                     validators=[cagnottesolidaire.models.validate_positive],
+                     verbose_name='But à atteindre')),
+                ('fin_depot',
+                 models.DateField(
+                     help_text='format: 31/12/2017',
+                     validators=[cagnottesolidaire.models.validate_future],
+                     verbose_name='Date de fin du dépôt des propositions')),
+                ('fin_achat',
+                 models.DateField(
+                     help_text='format: 31/12/2017',
+                     validators=[cagnottesolidaire.models.validate_future],
+                     verbose_name='Date de fin des achats')),
+                ('responsable',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -44,8 +60,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('description', models.CharField(max_length=250)),
-                ('cagnotte', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='cagnottesolidaire.Cagnotte')),
-                ('demandeur', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
+                ('cagnotte',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='cagnottesolidaire.Cagnotte')),
+                ('demandeur',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -55,8 +73,11 @@ class Migration(migrations.Migration):
                 ('valide', models.NullBooleanField(default=None, verbose_name='validé')),
                 ('paye', models.BooleanField(default=False, verbose_name='payé')),
                 ('remarques', models.TextField(blank=True)),
-                ('prix', models.DecimalField(decimal_places=2, max_digits=8, validators=[cagnottesolidaire.models.validate_positive])),
-                ('beneficiaire', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
+                ('prix',
+                 models.DecimalField(
+                     decimal_places=2, max_digits=8, validators=[cagnottesolidaire.models.validate_positive])),
+                ('beneficiaire',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ('paye', 'valide', 'proposition'),
@@ -72,11 +93,22 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200, unique=True)),
                 ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from='name', unique=True)),
                 ('description', models.TextField()),
-                ('prix', models.DecimalField(decimal_places=2, max_digits=8, validators=[cagnottesolidaire.models.validate_positive])),
-                ('beneficiaires', models.IntegerField(default=1, help_text='0 pour un nombre illimité', validators=[cagnottesolidaire.models.validate_positive], verbose_name='Nombre maximal de bénéficiaires')),
-                ('image', models.ImageField(blank=True, upload_to=cagnottesolidaire.models.upload_to_prop, verbose_name='Image')),
-                ('cagnotte', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='cagnottesolidaire.Cagnotte')),
-                ('responsable', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
+                ('prix',
+                 models.DecimalField(
+                     decimal_places=2, max_digits=8, validators=[cagnottesolidaire.models.validate_positive])),
+                ('beneficiaires',
+                 models.IntegerField(
+                     default=1,
+                     help_text='0 pour un nombre illimité',
+                     validators=[cagnottesolidaire.models.validate_positive],
+                     verbose_name='Nombre maximal de bénéficiaires')),
+                ('image',
+                 models.ImageField(
+                     blank=True, upload_to=cagnottesolidaire.models.upload_to_prop, verbose_name='Image')),
+                ('cagnotte',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='cagnottesolidaire.Cagnotte')),
+                ('responsable',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ('cagnotte', 'prix'),

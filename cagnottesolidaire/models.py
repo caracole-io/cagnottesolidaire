@@ -57,8 +57,11 @@ class Proposition(Links, TimeStampedModel, NamedModel):
     responsable = models.ForeignKey(User, on_delete=models.PROTECT)
     description = models.TextField()
     prix = models.DecimalField(max_digits=8, decimal_places=2, validators=[validate_positive])
-    beneficiaires = models.IntegerField('Nombre maximal de bénéficiaires', default=1, validators=[validate_positive],
-                                        help_text='0 pour un nombre illimité')
+    beneficiaires = models.IntegerField(
+        'Nombre maximal de bénéficiaires',
+        default=1,
+        validators=[validate_positive],
+        help_text='0 pour un nombre illimité')
     image = models.ImageField('Image', upload_to=upload_to_prop, blank=True)
 
     class Meta:

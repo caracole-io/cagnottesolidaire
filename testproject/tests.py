@@ -20,14 +20,19 @@ class TestCagnotte(TestCase):
 
     def test_cagnotte(self):
         self.assertEqual(Cagnotte.objects.count(), 0)
-        self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte', kwargs={'slug': 'first'})).status_code,
-                         404)
+        self.assertEqual(
+            self.client.get(reverse('cagnottesolidaire:cagnotte', kwargs={'slug': 'first'})).status_code, 404)
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte_list')).status_code, 200)
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte_create')).status_code, 302)
         self.client.login(username='a', password='a')
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte_create')).status_code, 200)
-        cagnotte_data = {'name': 'first', 'objectif': 'nothing', 'finances': 42,
-                         'fin_depot': '31/12/2016', 'fin_achat': '30/12/2017'}
+        cagnotte_data = {
+            'name': 'first',
+            'objectif': 'nothing',
+            'finances': 42,
+            'fin_depot': '31/12/2016',
+            'fin_achat': '30/12/2017'
+        }
         # fin_depot < today
         self.assertLess(strpdate(cagnotte_data['fin_depot']), date.today())
         r = self.client.post(reverse('cagnottesolidaire:cagnotte_create'), cagnotte_data)
@@ -48,24 +53,29 @@ class TestCagnotte(TestCase):
         self.assertEqual(r.status_code, 302)
         self.assertEqual(r.url, reverse('cagnottesolidaire:cagnotte', kwargs={'slug': 'first'}))
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte_list')).status_code, 200)
-        self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte', kwargs={'slug': 'first'})).status_code,
-                         200)
+        self.assertEqual(
+            self.client.get(reverse('cagnottesolidaire:cagnotte', kwargs={'slug': 'first'})).status_code, 200)
 
     def test_proposition(self):
         guy = User.objects.first()
         self.assertEqual(Proposition.objects.count(), 0)
         self.assertEqual(Cagnotte.objects.count(), 0)
-        proj = Cagnotte.objects.create(name='second', responsable=guy, objectif='nothing', finances=43,
-                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+        proj = Cagnotte.objects.create(
+            name='second',
+            responsable=guy,
+            objectif='nothing',
+            finances=43,
+            fin_depot=date(2017, 12, 31),
+            fin_achat=date(2018, 12, 31))
         projd = {'slug': proj.slug}
         propd = {'p_slug': proj.slug, 'slug': 'propo'}
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition', kwargs=propd)).status_code, 404)
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:cagnotte', kwargs=projd)).status_code, 200)
-        self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition_create', kwargs=projd)).status_code,
-                         302)
+        self.assertEqual(
+            self.client.get(reverse('cagnottesolidaire:proposition_create', kwargs=projd)).status_code, 302)
         self.client.login(username='a', password='a')
-        self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition_create', kwargs=projd)).status_code,
-                         200)
+        self.assertEqual(
+            self.client.get(reverse('cagnottesolidaire:proposition_create', kwargs=projd)).status_code, 200)
         proposition_data = {'name': 'Propo', 'description': 'blah blah', 'prix': '-42', 'beneficiaires': '1'}
         # prix < 0
         r = self.client.post(reverse('cagnottesolidaire:proposition_create', kwargs=projd), proposition_data)
@@ -81,8 +91,13 @@ class TestCagnotte(TestCase):
 
     def test_offre(self):
         guy = User.objects.first()
-        proj = Cagnotte.objects.create(name='third', responsable=guy, objectif='nothing', finances=43,
-                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+        proj = Cagnotte.objects.create(
+            name='third',
+            responsable=guy,
+            objectif='nothing',
+            finances=43,
+            fin_depot=date(2017, 12, 31),
+            fin_achat=date(2018, 12, 31))
         prop = Proposition.objects.create(name='Pipo', description='nope', prix=20, cagnotte=proj, responsable=guy)
         propd = {'p_slug': proj.slug, 'slug': prop.slug}
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition', kwargs=propd)).status_code, 200)
@@ -118,8 +133,13 @@ class TestCagnotte(TestCase):
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:offre_list')).status_code, 200)
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition_list')).status_code, 200)
         guy = User.objects.first()
-        proj = Cagnotte.objects.create(name='quatre', responsable=guy, objectif='nothing', finances=43,
-                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+        proj = Cagnotte.objects.create(
+            name='quatre',
+            responsable=guy,
+            objectif='nothing',
+            finances=43,
+            fin_depot=date(2017, 12, 31),
+            fin_achat=date(2018, 12, 31))
         prop = Proposition.objects.create(name='cinq', description='nope', prix=20, cagnotte=proj, responsable=guy)
         offr = Offre.objects.create(proposition=prop, beneficiaire=guy, prix=3)
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:offre_list')).status_code, 200)
@@ -128,12 +148,18 @@ class TestCagnotte(TestCase):
 
     def test_fbv(self):
         a, b, c, s = User.objects.all()
-        proj = Cagnotte.objects.create(name='fourth', responsable=a, objectif='nothing', finances=43,
-                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+        proj = Cagnotte.objects.create(
+            name='fourth',
+            responsable=a,
+            objectif='nothing',
+            finances=43,
+            fin_depot=date(2017, 12, 31),
+            fin_achat=date(2018, 12, 31))
         prop = Proposition.objects.create(name='Pipo', description='nope', prix=20, cagnotte=proj, responsable=b)
         offr = Offre.objects.create(proposition=prop, prix=22, beneficiaire=c)
-        ok, ko, paye = [reverse(f'cagnottesolidaire:offre_{view}', kwargs={'pk': offr.pk})
-                        for view in ['ok', 'ko', 'paye']]
+        ok, ko, paye = [
+            reverse(f'cagnottesolidaire:offre_{view}', kwargs={'pk': offr.pk}) for view in ['ok', 'ko', 'paye']
+        ]
 
         # Must be logged in
         self.assertEqual(self.client.get(ok).url.split('?')[0], reverse('login'))
@@ -163,10 +189,15 @@ class TestCagnotte(TestCase):
 
     def test_offrable(self):
         a, b, c, s = User.objects.all()
-        proj = Cagnotte.objects.create(name='fifth', responsable=a, objectif='nothing', finances=43,
-                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
-        prop = Proposition.objects.create(name='Pipo', description='nope', prix=20, cagnotte=proj, responsable=b,
-                                          beneficiaires=2)
+        proj = Cagnotte.objects.create(
+            name='fifth',
+            responsable=a,
+            objectif='nothing',
+            finances=43,
+            fin_depot=date(2017, 12, 31),
+            fin_achat=date(2018, 12, 31))
+        prop = Proposition.objects.create(
+            name='Pipo', description='nope', prix=20, cagnotte=proj, responsable=b, beneficiaires=2)
         self.client.login(username='c', password='c')
         self.assertEqual(Offre.objects.count(), 0)
         url = reverse('cagnottesolidaire:offre_create', kwargs={'p_slug': proj.slug, 'slug': prop.slug})
@@ -178,10 +209,15 @@ class TestCagnotte(TestCase):
         self.assertEqual(Offre.objects.count(), 3)
 
         # old
-        proj = Cagnotte.objects.create(name='sixth', responsable=a, objectif='nothing', finances=43,
-                                       fin_depot=date(2014, 12, 31), fin_achat=date(2015, 12, 31))
-        prop = Proposition.objects.create(name='popo', description='nope', prix=20, cagnotte=proj, responsable=b,
-                                          beneficiaires=2)
+        proj = Cagnotte.objects.create(
+            name='sixth',
+            responsable=a,
+            objectif='nothing',
+            finances=43,
+            fin_depot=date(2014, 12, 31),
+            fin_achat=date(2015, 12, 31))
+        prop = Proposition.objects.create(
+            name='popo', description='nope', prix=20, cagnotte=proj, responsable=b, beneficiaires=2)
         self.client.login(username='c', password='c')
         self.assertEqual(Offre.objects.count(), 3)
         url = reverse('cagnottesolidaire:offre_create', kwargs={'p_slug': proj.slug, 'slug': prop.slug})
@@ -191,8 +227,13 @@ class TestCagnotte(TestCase):
     def test_demande(self):
         guy = User.objects.first()
         self.assertEqual(Demande.objects.count(), 0)
-        proj = Cagnotte.objects.create(name='last', responsable=guy, objectif='nothing', finances=43,
-                                       fin_depot=date(2017, 12, 31), fin_achat=date(2018, 12, 31))
+        proj = Cagnotte.objects.create(
+            name='last',
+            responsable=guy,
+            objectif='nothing',
+            finances=43,
+            fin_depot=date(2017, 12, 31),
+            fin_achat=date(2018, 12, 31))
         data = {'slug': proj.slug}
         # Not logged in
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:demande_create', kwargs=data)).status_code, 302)
