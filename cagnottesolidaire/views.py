@@ -84,8 +84,11 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         cagnotte = get_object_or_404(Cagnotte, slug=self.kwargs.get('p_slug', None))
         proposition = self.get_proposition()
         count = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()
-        return super().get_context_data(
-            cagnotte=cagnotte, proposition=proposition, count=count, object=proposition, **kwargs)
+        return super().get_context_data(cagnotte=cagnotte,
+                                        proposition=proposition,
+                                        count=count,
+                                        object=proposition,
+                                        **kwargs)
 
     def get_initial(self):
         prop = self.get_proposition()
