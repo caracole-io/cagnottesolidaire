@@ -92,7 +92,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = os.environ.get('LANGUAGE_CODE', 'fr-FR')
+LANGUAGE_CODE = os.environ.get('LANGUAGE_CODE', 'fr')
 TIME_ZONE = os.environ.get('TIME_ZONE', 'Europe/Paris')
 USE_I18N = True
 USE_L10N = True
