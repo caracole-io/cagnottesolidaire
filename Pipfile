@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 ndh = "*"
-pillow = "==5.4.1"  # Pinned to alpine 3.9's version
+pillow = "==6.2.1"  # Pinned to alpine 3.11's version
 
 [dev-packages]
 flake8 = "*"
@@ -14,4 +14,4 @@ safety = "*"
 yapf = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
