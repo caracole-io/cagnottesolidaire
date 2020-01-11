@@ -39,13 +39,13 @@ class TestCagnotte(TestCase):
         self.assertEqual(Cagnotte.objects.count(), 0)
         self.assertEqual(r.status_code, 200)
         # fin_achat < fin_depot
-        cagnotte_data['fin_depot'] = '31/12/2019'
+        cagnotte_data['fin_depot'] = '31/12/2020'
         self.assertLess(strpdate(cagnotte_data['fin_achat']), strpdate(cagnotte_data['fin_depot']))
         r = self.client.post(reverse('cagnottesolidaire:cagnotte_create'), cagnotte_data)
         self.assertEqual(Cagnotte.objects.count(), 0)
         self.assertEqual(r.status_code, 200)
         # OK
-        cagnotte_data['fin_achat'] = '31/12/2020'
+        cagnotte_data['fin_achat'] = '31/12/2021'
         self.assertLess(date.today(), strpdate(cagnotte_data['fin_depot']))
         self.assertLess(strpdate(cagnotte_data['fin_depot']), strpdate(cagnotte_data['fin_achat']))
         r = self.client.post(reverse('cagnottesolidaire:cagnotte_create'), cagnotte_data)
@@ -95,7 +95,7 @@ class TestCagnotte(TestCase):
                                        objectif='nothing',
                                        finances=43,
                                        fin_depot=date(2017, 12, 31),
-                                       fin_achat=date(2019, 12, 31))
+                                       fin_achat=date(2020, 12, 31))
         prop = Proposition.objects.create(name='Pipo', description='nope', prix=20, cagnotte=proj, responsable=guy)
         propd = {'p_slug': proj.slug, 'slug': prop.slug}
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition', kwargs=propd)).status_code, 200)
@@ -190,7 +190,7 @@ class TestCagnotte(TestCase):
                                        objectif='nothing',
                                        finances=43,
                                        fin_depot=date(2017, 12, 31),
-                                       fin_achat=date(2019, 12, 31))
+                                       fin_achat=date(2020, 12, 31))
         prop = Proposition.objects.create(name='Pipo',
                                           description='nope',
                                           prix=20,
