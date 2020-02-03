@@ -3,7 +3,6 @@
 
 import os
 import re
-from subprocess import check_output
 
 from setuptools import setup  # type: ignore
 
@@ -12,27 +11,27 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 
 with open(os.path.join(os.path.dirname(__file__), 'Pipfile')) as pipfile:
     content = pipfile.read()
-    REQUIREMENTS = re.findall(r'''\\n *['"]?([\w-]*)['"]? *=''', content.split('packages]')[1])
-
-VERSION = [tag for tag in check_output(['git', 'tag', '-l']).decode().split() if tag.startswith('v')][-1][1:]
+    REQUIREMENTS = re.findall(r'''\n *['"]?([\w-]*)['"]? *=''', content.split('packages]')[1])
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='cagnottesolidaire',
-    version=VERSION,
     packages=['cagnottesolidaire'],
     install_requires=REQUIREMENTS,
     include_package_data=True,
     license='BSD',
     description='A social crowdfunding app',
     long_description=README,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     url='https://github.com/caracole-io/cagnottesolidaire/',
     author='Guilhem Saurel',
-    author_email='webmaster@caracole.io',
-    python_requires=f'>=3.6',
+    author_email='guilhem.saurel@laas.fr',
+    python_requires='>=3.6',
+    zip_safe=False,
+    use_scm_version=True,
+    setup_requires=['setuptools_scm'],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -41,6 +40,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
