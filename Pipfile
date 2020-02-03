@@ -5,13 +5,17 @@ name = "pypi"
 
 [packages]
 ndh = "*"
-pillow = "==6.2.1"  # Pinned to alpine 3.11's version
 
 [dev-packages]
 flake8 = "*"
 python-coveralls = "*"
 safety = "*"
 yapf = "*"
+setuptools-scm = "*"
+mypy = "*"
+pydocstyle = "*"
+pre-commit = "*"
+django-stubs = "*"
 
 [requires]
 python_version = "3.8"
