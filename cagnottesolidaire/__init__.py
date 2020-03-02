@@ -1,0 +1,1 @@
+"""Cagnotte Solidaire module."""

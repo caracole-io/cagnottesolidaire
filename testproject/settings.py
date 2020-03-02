@@ -1,3 +1,4 @@
+"""Settings for Cagnotte Solidaire's test project."""
 import os
 
 PROJECT = 'cagnottesolidaire'
@@ -10,7 +11,7 @@ ALLOWED_HOSTS += [f'www.{host}' for host in ALLOWED_HOSTS]
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.environ.get('SECRET_KEY', 'pipo')
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 INSTALLED_APPS = [

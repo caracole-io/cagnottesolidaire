@@ -1,8 +1,11 @@
+"""Utilities for the Cagnotte Solidaire django application."""
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 class IsUserOrAboveMixin(UserPassesTestMixin):
+    """Mixin to check a user can access to a View."""
     def test_func(self):
+        """Check that the user is authenticated, and has staff access or is the right user for a task."""
         if not self.request.user.is_authenticated:
             return False
         if self.request.user.is_staff:

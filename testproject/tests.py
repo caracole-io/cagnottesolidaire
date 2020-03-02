@@ -1,3 +1,4 @@
+"""Main test module for Cagnotte Solidaire."""
 from datetime import date
 
 from django.contrib.auth.models import User
@@ -8,17 +9,21 @@ from django.urls import reverse
 from cagnottesolidaire.models import Cagnotte, Demande, Offre, Proposition
 
 
-def strpdate(s):
+def strpdate(s: str) -> date:
+    """Parse a date. Nobody did that before."""
     d, m, y = [int(i) for i in s.split('/')]
     return date(y, m, d)
 
 
 class TestCagnotte(TestCase):
+    """Mait test class for Cagnotte Solidaire."""
     def setUp(self):
+        """Create 4 guys for all tests."""
         for guy in 'abcs':
             User.objects.create_user(guy, email=f'{guy}@example.org', password=guy, is_staff=guy == 's')
 
     def test_cagnotte(self):
+        """Perform tests on the Cagnotte model."""
         self.assertEqual(Cagnotte.objects.count(), 0)
         self.assertEqual(
             self.client.get(reverse('cagnottesolidaire:cagnotte', kwargs={'slug': 'first'})).status_code, 404)
@@ -57,6 +62,7 @@ class TestCagnotte(TestCase):
             self.client.get(reverse('cagnottesolidaire:cagnotte', kwargs={'slug': 'first'})).status_code, 200)
 
     def test_proposition(self):
+        """Perform tests on the Proposition model."""
         guy = User.objects.first()
         self.assertEqual(Proposition.objects.count(), 0)
         self.assertEqual(Cagnotte.objects.count(), 0)
@@ -89,6 +95,7 @@ class TestCagnotte(TestCase):
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition', kwargs=propd)).status_code, 200)
 
     def test_offre(self):
+        """Perform tests on the Offre model."""
         guy = User.objects.first()
         proj = Cagnotte.objects.create(name='third',
                                        responsable=guy,
@@ -125,6 +132,7 @@ class TestCagnotte(TestCase):
         self.assertEqual(self.client.get(url).status_code, 302)
 
     def test_lists(self):
+        """Check list views."""
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:offre_list')).status_code, 302)
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition_list')).status_code, 302)
         self.client.login(username='a', password='a')
@@ -144,6 +152,7 @@ class TestCagnotte(TestCase):
         self.assertEqual(str(offr), 'offre de a sur cinq (cagnotte quatre)')
 
     def test_fbv(self):
+        """Test the fuction based views in Cagnotte Solidaire."""
         a, b, c, s = User.objects.all()
         proj = Cagnotte.objects.create(name='fourth',
                                        responsable=a,
@@ -184,6 +193,7 @@ class TestCagnotte(TestCase):
         self.assertEqual(Offre.objects.first().paye, True)
 
     def test_offrable(self):
+        """Test something, I don't know what right now."""
         a, b, c, s = User.objects.all()
         proj = Cagnotte.objects.create(name='fifth',
                                        responsable=a,
@@ -227,6 +237,7 @@ class TestCagnotte(TestCase):
         self.assertEqual(Offre.objects.count(), 3)
 
     def test_demande(self):
+        """Perform tests on the Demande model."""
         guy = User.objects.first()
         self.assertEqual(Demande.objects.count(), 0)
         proj = Cagnotte.objects.create(name='last',
