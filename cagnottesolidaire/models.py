@@ -1,6 +1,6 @@
 """Main models."""
 from datetime import date
-from typing import List
+from typing import Dict, List
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -88,7 +88,8 @@ class Proposition(Links, TimeStampedModel, NamedModel):
 
     def offres(self) -> List[int]:
         """Get a list of number of [all, valid, payed] Offres for this Proposition."""
-        return [self.offre_set.filter(**f).count() for f in [{'': True}, {'valide': True}, {'paye': True}]]
+        filters: List[Dict[str, int]] = [{}, {'valide': True}, {'paye': True}]
+        return [self.offre_set.filter(**f).count() for f in filters]
 
     def offrable(self) -> bool:
         """Tell if this Proposition is available."""
