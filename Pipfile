@@ -17,6 +17,3 @@ mypy = "*"
 pydocstyle = "*"
 pre-commit = "*"
 django-stubs = "*"
-
-[requires]
-python_version = "3.8"
