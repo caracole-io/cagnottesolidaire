@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 ndh = "*"
-pillow = "==6.2.1"  # Pinned to alpine 3.11's version
 
 [dev-packages]
 flake8 = "*"

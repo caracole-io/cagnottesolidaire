@@ -1,19 +1,22 @@
-FROM alpine:3.11
+FROM python:slim
 
 EXPOSE 8000
 
 RUN mkdir /app
 WORKDIR /app
 
-RUN apk update -q && apk add -q --no-cache \
-    py3-pillow \
-    py3-psycopg2 \
-    python3 \
+RUN apt-get update -qqy \
+ && apt-get install -qqy \
+    gcc \
+    libpq-dev \
  && pip3 install --no-cache-dir -U pip \
  && pip3 install --no-cache-dir \
     gunicorn \
     pipenv \
-    python-memcached
+    psycopg2 \
+    python-memcached \
+ && apt-get autoremove -qqy gcc \
+ && rm -rf /var/lib/apt/lists/*
 
 ADD Pipfile Pipfile.lock ./
 RUN pipenv install --system --deploy
