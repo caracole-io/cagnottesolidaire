@@ -9,6 +9,7 @@ RUN apt-get update -qqy \
  && apt-get install -qqy \
     gcc \
     libpq-dev \
+    netcat \
  && pip3 install --no-cache-dir -U pip \
  && pip3 install --no-cache-dir \
     gunicorn \
