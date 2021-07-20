@@ -2,8 +2,16 @@ FROM python:slim
 
 EXPOSE 8000
 
-RUN mkdir /app
 WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1
+
+CMD while ! nc -z postgres 5432; do sleep 1; done \
+ && ./manage.py migrate \
+ && ./manage.py collectstatic --no-input \
+ && gunicorn \
+    --bind 0.0.0.0 \
+    testproject.wsgi
 
 RUN apt-get update -qqy \
  && apt-get install -qqy \
@@ -13,20 +21,16 @@ RUN apt-get update -qqy \
  && pip3 install --no-cache-dir -U pip \
  && pip3 install --no-cache-dir \
     gunicorn \
-    pipenv \
+    poetry \
     psycopg2 \
     python-memcached \
+    raven \
+    requests \
  && apt-get autoremove -qqy gcc \
  && rm -rf /var/lib/apt/lists/*
 
-ADD Pipfile Pipfile.lock ./
-RUN pipenv install --system --deploy
+ADD pyproject.toml poetry.lock ./
+RUN poetry config virtualenvs.create false --local \
+ && poetry install --no-dev --no-root --no-interaction --no-ansi
 
 ADD . .
-
-CMD while ! nc -z postgres 5432; do sleep 1; done \
- && ./manage.py migrate \
- && ./manage.py collectstatic --no-input \
- && gunicorn \
-    --bind 0.0.0.0 \
-    testproject.wsgi
