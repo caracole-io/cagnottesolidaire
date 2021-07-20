@@ -1,0 +1,45 @@
+name: Tests
+on: [push, pull_request]
+env:
+  SECRET_KEY: pipo
+  EMAIL_HOST_PASSWORD: pipo
+  POSTGRES_HOST: postgres
+  POSTGRES_PASSWORD: postgres
+  RAVEN: False
+  DSN: ""
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: setup
+        run: |
+          pip install poetry psycopg2
+          poetry config virtualenvs.create false --local
+          poetry install --no-interaction --no-ansi
+
+      - run: python -Wa ./manage.py migrate
+      - run: PYTHONWARNINGS=always coverage run manage.py test
+      - run: flake8 .
+      - run: yapf -dr .
+      - run: mypy .
+      - run: pydocstyle
+      - run: safety check
+      - run: pip install "git+https://github.com/${GITHUB_REPOSITORY}.git#egg=cagnottesolidaire"
+
+      - uses: codecov/codecov-action@v1
