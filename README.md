@@ -1,6 +1,7 @@
 # Cagnotte Solidaire
-[![Build Status](https://travis-ci.org/caracole-io/cagnottesolidaire.svg?branch=master)](https://travis-ci.org/caracole-io/cagnottesolidaire)
-[![Coverage Status](https://coveralls.io/repos/github/caracole-io/cagnottesolidaire/badge.svg?branch=master)](https://coveralls.io/github/caracole-io/cagnottesolidaire?branch=master)
+
+[![Tests](https://github.com/caracole-io/cagnottesolidaire/actions/workflows/test.yml/badge.svg)](https://github.com/caracole-io/cagnottesolidaire/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/caracole-io/cagnottesolidaire/branch/master/graph/badge.svg?token=BLGISGCYKG)](https://codecov.io/gh/caracole-io/cagnottesolidaire)
 
 ## Reverse Proxy
 
