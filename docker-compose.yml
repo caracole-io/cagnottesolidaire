@@ -26,17 +26,17 @@ services:
       - default
     labels:
       traefik.enable: "true"
-      traefik.frontend.rule: "Host: cagnottesolidaire.${DOMAIN_NAME:-io}, www.cagnottesolidaire.${DOMAIN_NAME:-io}"
+      traefik.http.routers.cagnottesolidaire-app.rule: "Host(`cagnottesolidaire.${DOMAIN_NAME:-localhost}`)"
   nginx:
     image: nim65s/ndh:nginx
     restart: unless-stopped
     volumes:
-      - "${CHATONS_ROOT_DIR:-/srv/chatons}/cagnottesolidaire/srv/cagnottesolidaire:/srv"
+      - "${CHATONS_ROOT_DIR:-/srv/chatons}/cagnottesolidaire/srv/cagnottesolidaire:/srv:ro"
     networks:
       - web
     labels:
       traefik.enable: "true"
-      traefik.frontend.rule: "Host: cagnottesolidaire.${DOMAIN_NAME:-io}, www.cagnottesolidaire.${DOMAIN_NAME:-io}; PathPrefix: /static, /media"
+      traefik.http.routers.cagnottesolidaire-ngx.rule: "Host(`cagnottesolidaire.${DOMAIN_NAME:-localhost}) && PathPrefix(`/static`, `/media`)"
 
 networks:
   web:
