@@ -1,12 +1,11 @@
 """Main test module for Cagnotte Solidaire."""
 from datetime import date
 
+from cagnottesolidaire.models import Cagnotte, Demande, Offre, Proposition
 from django.contrib.auth.models import User
 from django.core import mail
 from django.test import TestCase
 from django.urls import reverse
-
-from cagnottesolidaire.models import Cagnotte, Demande, Offre, Proposition
 
 
 def strpdate(s: str) -> date:
@@ -44,13 +43,13 @@ class TestCagnotte(TestCase):
         self.assertEqual(Cagnotte.objects.count(), 0)
         self.assertEqual(r.status_code, 200)
         # fin_achat < fin_depot
-        cagnotte_data['fin_depot'] = '31/12/2020'
+        cagnotte_data['fin_depot'] = '31/12/2021'
         self.assertLess(strpdate(cagnotte_data['fin_achat']), strpdate(cagnotte_data['fin_depot']))
         r = self.client.post(reverse('cagnottesolidaire:cagnotte_create'), cagnotte_data)
         self.assertEqual(Cagnotte.objects.count(), 0)
         self.assertEqual(r.status_code, 200)
         # OK
-        cagnotte_data['fin_achat'] = '31/12/2021'
+        cagnotte_data['fin_achat'] = '31/12/2022'
         self.assertLess(date.today(), strpdate(cagnotte_data['fin_depot']))
         self.assertLess(strpdate(cagnotte_data['fin_depot']), strpdate(cagnotte_data['fin_achat']))
         r = self.client.post(reverse('cagnottesolidaire:cagnotte_create'), cagnotte_data)
@@ -102,7 +101,7 @@ class TestCagnotte(TestCase):
                                        objectif='nothing',
                                        finances=43,
                                        fin_depot=date(2017, 12, 31),
-                                       fin_achat=date(2020, 12, 31))
+                                       fin_achat=date(2021, 12, 31))
         prop = Proposition.objects.create(name='Pipo', description='nope', prix=20, cagnotte=proj, responsable=guy)
         propd = {'p_slug': proj.slug, 'slug': prop.slug}
         self.assertEqual(self.client.get(reverse('cagnottesolidaire:proposition', kwargs=propd)).status_code, 200)
@@ -200,7 +199,7 @@ class TestCagnotte(TestCase):
                                        objectif='nothing',
                                        finances=43,
                                        fin_depot=date(2017, 12, 31),
-                                       fin_achat=date(2020, 12, 31))
+                                       fin_achat=date(2021, 12, 31))
         prop = Proposition.objects.create(name='Pipo',
                                           description='nope',
                                           prix=20,
