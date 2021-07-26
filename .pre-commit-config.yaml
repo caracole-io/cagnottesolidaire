@@ -38,3 +38,4 @@ repos:
         -   django-autoslug
         -   django-bootstrap4
         -   django-stubs
+        -   ndh

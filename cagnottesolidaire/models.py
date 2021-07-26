@@ -116,7 +116,7 @@ class Offre(Links, models.Model):
     """Model for an Offre on a Proposition."""
     proposition = models.ForeignKey(Proposition, on_delete=models.PROTECT)
     beneficiaire = models.ForeignKey(User, on_delete=models.PROTECT)
-    valide = models.NullBooleanField('validé', default=None)
+    valide = models.BooleanField('validé', default=None, null=True)
     paye = models.BooleanField('payé', default=False)
     remarques = models.TextField(blank=True)
     prix = models.DecimalField(max_digits=8, decimal_places=2, validators=[validate_positive])
