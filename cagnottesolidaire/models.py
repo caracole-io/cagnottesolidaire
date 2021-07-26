@@ -7,7 +7,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.query import QuerySet
 from django.urls import reverse
-
 from ndh.models import Links, NamedModel, TimeStampedModel
 from ndh.utils import Numeric, query_sum
 
@@ -50,11 +49,11 @@ class Cagnotte(Links, TimeStampedModel, NamedModel):
 
     def somme(self) -> Numeric:
         """Get the sum of the prices for the valid Offres of this Cagnotte."""
-        return query_sum(self.offres(), 'prix')
+        return query_sum(self.offres(), 'prix', output_field=models.DecimalField())
 
     def somme_encaissee(self) -> Numeric:
         """Get the sum of the prices for the valid and payed Offres of this Cagnotte."""
-        return query_sum(self.offres().filter(paye=True), 'prix')
+        return query_sum(self.offres().filter(paye=True), 'prix', output_field=models.DecimalField())
 
     def progress(self) -> int:
         """Get the advancement in percent of the goal for this Cagnotte."""
@@ -99,7 +98,7 @@ class Proposition(Links, TimeStampedModel, NamedModel):
 
     def somme(self) -> Numeric:
         """Get the sum of all Offres for this Proposition."""
-        return query_sum(self.offre_set.filter(valide=True), 'prix')
+        return query_sum(self.offre_set.filter(valide=True), 'prix', output_field=models.DecimalField())
 
     @property
     def ben_s(self) -> str:
