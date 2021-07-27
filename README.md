@@ -1,6 +1,7 @@
 # Cagnotte Solidaire
 
 [![Tests](https://github.com/caracole-io/cagnottesolidaire/actions/workflows/test.yml/badge.svg)](https://github.com/caracole-io/cagnottesolidaire/actions/workflows/test.yml)
+[![Lints](https://github.com/caracole-io/cagnottesolidaire/actions/workflows/lint.yml/badge.svg)](https://github.com/caracole-io/cagnottesolidaire/actions/workflows/lint.yml)
 [![codecov](https://codecov.io/gh/caracole-io/cagnottesolidaire/branch/master/graph/badge.svg?token=BLGISGCYKG)](https://codecov.io/gh/caracole-io/cagnottesolidaire)
 
 ## Reverse Proxy

@@ -35,11 +35,6 @@ jobs:
 
       - run: python -Wa manage.py migrate
       - run: PYTHONWARNINGS=always coverage run manage.py test
-      - run: flake8 .
-      - run: yapf -dr .
-      - run: mypy .
-      - run: pydocstyle
-      - run: safety check
       - run: pip install "git+https://github.com/${GITHUB_REPOSITORY}.git#egg=cagnottesolidaire"
 
       - uses: codecov/codecov-action@v1
