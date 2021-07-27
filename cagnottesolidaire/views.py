@@ -101,7 +101,7 @@ class OffreCreateView(LoginRequiredMixin, CreateView):
         """Add context to the view."""
         cagnotte = get_object_or_404(Cagnotte, slug=self.kwargs.get('p_slug', None))
         proposition = self.get_proposition()
-        count = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()
+        count = Offre.objects.filter(proposition=proposition, beneficiaire=self.request.user).count()  # type: ignore
         return super().get_context_data(cagnotte=cagnotte,
                                         proposition=proposition,
                                         count=count,
@@ -118,7 +118,7 @@ class OffreListView(LoginRequiredMixin, ListView):
     """A view to list the current user's Offres."""
     def get_queryset(self) -> QuerySet:
         """Get only the current user's Offres."""
-        return Offre.objects.filter(beneficiaire=self.request.user)
+        return Offre.objects.filter(beneficiaire=self.request.user)  # type: ignore
 
 
 class PropositionListView(LoginRequiredMixin, ListView):
