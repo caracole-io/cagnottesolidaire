@@ -32,6 +32,12 @@ pre-commit = "^2.11.1"
 ruff = "^0.0.254"
 safety = {allow-prereleases = true, version = "^2.4.0b1"}
 
+[tool.poetry.group.prod]
+optional = true
+
+[tool.poetry.group.prod.dependencies]
+psycopg2 = "^2.9.5"
+
 [tool.ruff]
 allowed-confusables = [" "]
 extend-exclude = ["migrations"]

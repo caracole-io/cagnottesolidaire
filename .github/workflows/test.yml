@@ -1,5 +1,7 @@
 name: Tests
+
 on: [push, pull_request]
+
 env:
   SECRET_KEY: pipo
   EMAIL_HOST_PASSWORD: pipo
@@ -7,8 +9,9 @@ env:
   POSTGRES_PASSWORD: postgres
   RAVEN: False
   DSN: ""
+
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -21,20 +24,20 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
-
+          python-version: "3.10"
+          cache: poetry
       - name: setup
-        run: |
-          pip install poetry psycopg2
-          poetry config virtualenvs.create false --local
-          poetry install --no-interaction --no-ansi
+        run: poetry install --with dev --with prod --no-interaction --no-ansi
+      - run: poetry run ./manage.py migrate
+        env:
+          PYTHONWARNINGS: error
+      - run: poetry run coverage run manage.py test
+        env:
+          PYTHONWARNINGS: error
+      - run: python -m pip install "git+https://github.com/${GITHUB_REPOSITORY}.git#egg=cagnottesolidaire"
 
-      - run: python -Wa manage.py migrate
-      - run: PYTHONWARNINGS=always coverage run manage.py test
-      - run: pip install "git+https://github.com/${GITHUB_REPOSITORY}.git#egg=cagnottesolidaire"
-
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v3
